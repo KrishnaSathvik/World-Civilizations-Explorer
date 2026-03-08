@@ -11,6 +11,7 @@ import TimelinePage from "./pages/TimelinePage";
 import ComparePage from "./pages/ComparePage";
 import EraPage from "./pages/EraPage";
 import FigurePage from "./pages/FigurePage";
+import FiguresIndexPage from "./pages/FiguresIndexPage";
 import TopicPage from "./pages/TopicPage";
 import SearchPage from "./pages/SearchPage";
 import AboutPage from "./pages/AboutPage";
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/era/:slug" element={<EraPage />} />
+          <Route path="/figures" element={<FiguresIndexPage />} />
           <Route path="/figures/:slug" element={<FigurePage />} />
           <Route path="/topics/:slug" element={<TopicPage />} />
           <Route path="/search" element={<SearchPage />} />
