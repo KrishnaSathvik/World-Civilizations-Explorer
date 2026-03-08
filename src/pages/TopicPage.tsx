@@ -25,9 +25,16 @@ export default function TopicPage() {
   });
 
   const { data: images } = useQuery({
-    queryKey: ["wiki-images", wikiTitle],
-    queryFn: () => fetchWikipediaImages(wikiTitle),
+    queryKey: ["commons-images", wikiTitle],
+    queryFn: () => searchCommonsImages(wikiTitle.replace(/_/g, " "), 8),
     staleTime: 1000 * 60 * 30,
+    enabled: !!wikiTitle,
+  });
+
+  const { data: wikidataInfo } = useQuery({
+    queryKey: ["wikidata-topic", wikiTitle],
+    queryFn: () => fetchTopicFromWikidata(wikiTitle),
+    staleTime: 1000 * 60 * 60,
     enabled: !!wikiTitle,
   });
 
