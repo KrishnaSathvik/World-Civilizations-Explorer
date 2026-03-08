@@ -10,6 +10,11 @@ const dataSources = [
   { name: "Wikipedia", url: "https://en.wikipedia.org", description: "Encyclopedic articles, summaries, and images for civilizations, figures, and topics via the REST API." },
   { name: "Wikidata", url: "https://www.wikidata.org", description: "Structured knowledge graph data for historical entities — dates, coordinates, relationships, and classifications via SPARQL." },
   { name: "Wikimedia Commons", url: "https://commons.wikimedia.org", description: "90M+ freely usable media files including historical photographs, maps, artwork reproductions, and archaeological site photos." },
+  { name: "Metropolitan Museum of Art", url: "https://metmuseum.github.io", description: "Over 470,000 artworks with high-res images from one of the world's largest art museums. Free, no key required." },
+  { name: "Art Institute of Chicago", url: "https://api.artic.edu/docs", description: "300,000+ artworks spanning 5,000 years of creativity. Free IIIF image access, no key required." },
+  { name: "Smithsonian Open Access", url: "https://www.si.edu/openaccess", description: "Millions of digital items from 21 museums including American history, natural history, and air & space artifacts." },
+  { name: "Harvard Art Museums", url: "https://harvardartmuseums.org", description: "230,000+ objects with academic-quality metadata. Strong in Asian and European art collections." },
+  { name: "Rijksmuseum", url: "https://data.rijksmuseum.nl", description: "Dutch Golden Age masterworks and European collection. Key-free Linked Art API with full open data access." },
   { name: "Muffinlabs History API", url: "https://history.muffinlabs.com", description: "Wikipedia-sourced daily history data powering the 'This Day in History' feature." },
 ];
 

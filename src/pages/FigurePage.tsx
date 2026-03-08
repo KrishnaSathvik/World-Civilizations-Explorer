@@ -9,6 +9,7 @@ import { searchCommonsImages } from "@/services/wikimedia-commons";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { MuseumGallery } from "@/components/MuseumGallery";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -291,6 +292,10 @@ export default function FigurePage() {
             </div>
           </section>
         )}
+
+
+        {/* Museum Artifacts */}
+        <MuseumGallery query={displayName} title={`${displayName} — Museum Artifacts`} limit={4} />
 
         {/* Related Topics */}
         {relatedTopics.length > 0 && (

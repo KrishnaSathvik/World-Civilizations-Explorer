@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
+import { MuseumGallery } from "@/components/MuseumGallery";
 import { Skeleton } from "@/components/ui/skeleton";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
@@ -374,6 +375,10 @@ export default function CivilizationHub() {
           )}
         </div>
       </section>
+
+
+      {/* Museum Artifacts */}
+      <MuseumGallery query={`${civ.name} art history`} title={`${civ.name} — Museum Artifacts`} limit={4} />
 
       <Footer />
     </div>
