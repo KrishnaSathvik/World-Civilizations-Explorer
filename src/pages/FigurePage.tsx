@@ -1,9 +1,9 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { User, ArrowLeft, ExternalLink, MapPin, BookOpen } from "lucide-react";
+import { User, ExternalLink, MapPin, BookOpen, Clock, Globe, Calendar } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
-import { fetchWikipediaSummary } from "@/services/api";
+import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -22,12 +22,26 @@ export default function FigurePage() {
     enabled: !!wikiTitle,
   });
 
-  // Find which civilizations this figure belongs to
+  const { data: images } = useQuery({
+    queryKey: ["wiki-images", wikiTitle],
+    queryFn: () => fetchWikipediaImages(wikiTitle),
+    staleTime: 1000 * 60 * 30,
+    enabled: !!wikiTitle,
+  });
+
   const relatedCivs = civilizations.filter((c) =>
     c.keyFigures.includes(wikiTitle)
   );
 
+  // Related topics from same civilizations
+  const relatedTopics = Array.from(
+    new Set(relatedCivs.flatMap((c) => c.topics))
+  ).slice(0, 8);
+
   const displayName = wikiTitle.replace(/_/g, " ");
+  const readTime = wiki?.extract
+    ? Math.max(1, Math.ceil(wiki.extract.split(/\s+/).length / 200))
+    : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -66,10 +80,19 @@ export default function FigurePage() {
 
                 {/* Info */}
                 <div className="flex-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 mb-4">
-                    <User className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-heading font-medium text-primary">Historical Figure</span>
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10">
+                      <User className="h-4 w-4 text-primary" />
+                      <span className="text-xs font-heading font-medium text-primary">Historical Figure</span>
+                    </div>
+                    {readTime && (
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted border border-border">
+                        <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                        <span className="text-xs font-mono text-muted-foreground">{readTime} min read</span>
+                      </div>
+                    )}
                   </div>
+
                   <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
                     {displayName}
                   </h1>
@@ -105,28 +128,91 @@ export default function FigurePage() {
                     </p>
                   )}
 
-                  {/* Wikipedia link */}
-                  {wiki?.content_urls?.desktop?.page && (
-                    <a
-                      href={wiki.content_urls.desktop.page}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-4 inline-block"
-                    >
-                      <Button variant="outline" size="sm" className="font-heading text-xs gap-1.5">
-                        <ExternalLink className="h-3.5 w-3.5" /> Read on Wikipedia
-                      </Button>
-                    </a>
-                  )}
+                  {/* Source badges & Wikipedia link */}
+                  <div className="flex flex-wrap items-center gap-3 mt-5">
+                    {wiki?.content_urls?.desktop?.page && (
+                      <a
+                        href={wiki.content_urls.desktop.page}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button variant="outline" size="sm" className="font-heading text-xs gap-1.5">
+                          <ExternalLink className="h-3.5 w-3.5" /> Read on Wikipedia
+                        </Button>
+                      </a>
+                    )}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                      <Globe className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-[10px] font-heading text-muted-foreground">Source: Wikipedia</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
           </div>
         </section>
 
-        {/* Related content */}
-        {relatedCivs.length > 0 && (
+        {/* Gallery */}
+        {images && images.length > 0 && (
+          <section className="py-10 md:py-16 bg-gradient-to-b from-background to-primary/[0.02]">
+            <div className="container">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Calendar className="h-4 w-4 text-primary" />
+                  </div>
+                  <h2 className="font-display text-2xl font-bold text-foreground">Gallery</h2>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {images.map((img, i) => (
+                    <div key={i} className="rounded-xl overflow-hidden border border-border bg-card group">
+                      <div className="aspect-square overflow-hidden">
+                        <img
+                          src={img.source}
+                          alt={img.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="p-2">
+                        <p className="text-[10px] font-heading text-muted-foreground truncate">{img.title}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </ScrollReveal>
+            </div>
+          </section>
+        )}
+
+        {/* Related Topics */}
+        {relatedTopics.length > 0 && (
           <section className="py-10 md:py-16">
+            <div className="container">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-8 rounded-lg bg-accent/50 flex items-center justify-center">
+                    <BookOpen className="h-4 w-4 text-primary" />
+                  </div>
+                  <h2 className="font-display text-2xl font-bold text-foreground">Related Topics</h2>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {relatedTopics.map((t) => (
+                    <Link key={t} to={`/topics/${t}`}>
+                      <Badge variant="outline" className="font-heading text-sm py-1.5 px-3 hover:bg-muted cursor-pointer">
+                        {t.replace(/_/g, " ")}
+                      </Badge>
+                    </Link>
+                  ))}
+                </div>
+              </ScrollReveal>
+            </div>
+          </section>
+        )}
+
+        {/* Related Civilizations & Other Figures */}
+        {relatedCivs.length > 0 && (
+          <section className="py-10 md:py-16 bg-secondary/30">
             <div className="container">
               <ScrollReveal>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-6">
@@ -140,7 +226,7 @@ export default function FigurePage() {
                         <h3 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                           {civ.name}
                         </h3>
-                        <p className="text-sm font-heading text-muted-foreground">{civ.dateRange}</p>
+                        <p className="text-sm font-mono text-muted-foreground">{civ.dateRange}</p>
                         <p className="text-sm font-heading text-muted-foreground mt-0.5">{civ.region}</p>
                       </div>
                     </Link>
@@ -148,7 +234,6 @@ export default function FigurePage() {
                 </div>
               </ScrollReveal>
 
-              {/* Other figures from same civs */}
               <ScrollReveal delay={0.15}>
                 <h2 className="font-display text-2xl font-bold text-foreground mt-12 mb-6">
                   Other Key Figures
@@ -161,7 +246,7 @@ export default function FigurePage() {
                     .map((f) => (
                       <Link key={f} to={`/figures/${f}`}>
                         <Badge variant="outline" className="font-heading text-sm py-1.5 px-3 hover:bg-muted cursor-pointer">
-                          <BookOpen className="h-3.5 w-3.5 mr-1.5" />
+                          <User className="h-3.5 w-3.5 mr-1.5" />
                           {f.replace(/_/g, " ")}
                         </Badge>
                       </Link>
