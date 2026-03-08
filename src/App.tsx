@@ -12,6 +12,7 @@ import ComparePage from "./pages/ComparePage";
 import EraPage from "./pages/EraPage";
 import FigurePage from "./pages/FigurePage";
 import TopicPage from "./pages/TopicPage";
+import SearchPage from "./pages/SearchPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/era/:slug" element={<EraPage />} />
           <Route path="/figures/:slug" element={<FigurePage />} />
           <Route path="/topics/:slug" element={<TopicPage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />

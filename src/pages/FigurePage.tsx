@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { User, ArrowLeft, ExternalLink, MapPin, BookOpen } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary } from "@/services/api";
 import { Navbar } from "@/components/Navbar";
@@ -36,13 +37,14 @@ export default function FigurePage() {
         <section className="border-b border-border/60 bg-gradient-to-b from-primary/[0.03] to-background">
           <div className="container py-10 md:py-16">
             <ScrollReveal>
-              <Link
-                to={relatedCivs.length ? `/civilizations/${relatedCivs[0].slug}` : "/"}
-                className="inline-flex items-center gap-1.5 text-sm font-heading text-muted-foreground hover:text-foreground mb-6 transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                {relatedCivs.length ? relatedCivs[0].name : "Back"}
-              </Link>
+              <Breadcrumbs
+                items={[
+                  ...(relatedCivs.length
+                    ? [{ label: relatedCivs[0].name, href: `/civilizations/${relatedCivs[0].slug}` }]
+                    : []),
+                  { label: displayName },
+                ]}
+              />
 
               <div className="flex flex-col md:flex-row gap-8 items-start">
                 {/* Portrait */}

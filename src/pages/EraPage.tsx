@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
 import { Layers, Calendar, ArrowLeft } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary } from "@/services/api";
 import { Navbar } from "@/components/Navbar";
@@ -70,9 +71,7 @@ export default function EraPage() {
         <section className="border-b border-border/60 bg-gradient-to-b from-primary/[0.03] to-background">
           <div className="container py-10 md:py-16">
             <ScrollReveal>
-              <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-heading text-muted-foreground hover:text-foreground mb-4 transition-colors">
-                <ArrowLeft className="h-4 w-4" /> Back to Explore
-              </Link>
+              <Breadcrumbs items={[{ label: era.title }]} />
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 mb-4 ml-4">
                 <Layers className="h-4 w-4 text-primary" />
                 <span className="text-xs font-heading font-medium text-primary">Era Overview</span>

@@ -7,6 +7,7 @@ import { fetchWikipediaSummary } from "@/services/api";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -127,6 +128,7 @@ export default function ComparePage() {
         <section className="border-b border-border/60 bg-gradient-to-b from-primary/[0.03] to-background">
           <div className="container py-10 md:py-16">
             <ScrollReveal>
+              <Breadcrumbs items={[{ label: "Compare" }]} />
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 mb-4">
                 <GitCompareArrows className="h-4 w-4 text-primary" />
                 <span className="text-xs font-heading font-medium text-primary">Comparison</span>
