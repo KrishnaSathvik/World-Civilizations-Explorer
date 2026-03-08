@@ -152,4 +152,8 @@
   .font-body {
     font-family: 'Source Serif 4', serif;
   }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
 }
