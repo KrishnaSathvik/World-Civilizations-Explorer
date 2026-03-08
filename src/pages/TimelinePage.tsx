@@ -90,6 +90,7 @@ export default function TimelinePage() {
           <div className="container py-10 md:py-16">
             <ScrollReveal>
               <Breadcrumbs items={[{ label: "Timeline" }]} />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 mb-4">
                 <Clock className="h-4 w-4 text-primary" />
                 <span className="text-xs font-heading font-medium text-primary">Interactive Timeline</span>
               </div>
