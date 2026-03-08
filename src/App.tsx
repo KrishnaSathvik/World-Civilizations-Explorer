@@ -7,6 +7,11 @@ import Index from "./pages/Index";
 import AskPage from "./pages/AskPage";
 import CivilizationHub from "./pages/CivilizationHub";
 import MapPage from "./pages/MapPage";
+import TimelinePage from "./pages/TimelinePage";
+import ComparePage from "./pages/ComparePage";
+import EraPage from "./pages/EraPage";
+import FigurePage from "./pages/FigurePage";
+import TopicPage from "./pages/TopicPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
