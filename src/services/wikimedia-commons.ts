@@ -88,14 +88,14 @@ export async function fetchCommonsCategoryImages(
       if (!info) return null;
       const ext = info.extmetadata || {};
       return {
-        title: (p.title || "").replace("File:", ""),
-        source: info.url || "",
-        thumbUrl: info.thumburl || info.url || "",
-        width: info.width || 0,
-        height: info.height || 0,
-        description: ext.ImageDescription?.value?.replace(/<[^>]*>/g, ""),
-        license: ext.LicenseShortName?.value,
-      };
+        title: (p.title || "").replace("File:", "") as string,
+        source: (info.url || "") as string,
+        thumbUrl: (info.thumburl || info.url || "") as string,
+        width: (info.width || 0) as number,
+        height: (info.height || 0) as number,
+        description: ext.ImageDescription?.value?.replace(/<[^>]*>/g, "") as string | undefined,
+        license: ext.LicenseShortName?.value as string | undefined,
+      } as CommonsImage | null;
     })
     .filter(
       (img): img is CommonsImage =>
