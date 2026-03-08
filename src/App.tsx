@@ -12,6 +12,7 @@ import ComparePage from "./pages/ComparePage";
 import EraPage from "./pages/EraPage";
 import FigurePage from "./pages/FigurePage";
 import TopicPage from "./pages/TopicPage";
+import SearchPage from "./pages/SearchPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
