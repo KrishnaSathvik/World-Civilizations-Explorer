@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AskPage from "./pages/AskPage";
 import CivilizationHub from "./pages/CivilizationHub";
+import MapPage from "./pages/MapPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
