@@ -245,7 +245,7 @@ export default function MapPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
-                    className="absolute top-4 right-4 w-80 max-h-[calc(100%-2rem)] overflow-y-auto rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
+                    className="absolute bottom-4 left-4 right-4 sm:top-4 sm:bottom-auto sm:left-auto sm:right-4 sm:w-80 max-h-[60vh] sm:max-h-[calc(100%-2rem)] overflow-y-auto rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
                   >
                     <div className="p-5">
                       {/* Header */}
