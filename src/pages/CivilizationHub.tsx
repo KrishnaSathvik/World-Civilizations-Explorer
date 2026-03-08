@@ -232,12 +232,12 @@ export default function CivilizationHub() {
             {figureQueries.map((query, i) => {
               const data = query.data as WikiSummary | undefined;
               return (
-                <motion.a
+                <motion.div
                   key={civ.keyFigures[i]}
                   variants={staggerItem}
-                  href={data?.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${civ.keyFigures[i]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                >
+                <Link
+                  to={`/figures/${civ.keyFigures[i]}`}
                   className="group block p-4 rounded-xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-md transition-all"
                 >
                   <div className="h-20 w-20 mx-auto rounded-full overflow-hidden bg-muted mb-3">
