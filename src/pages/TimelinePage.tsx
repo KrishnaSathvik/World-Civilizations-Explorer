@@ -202,7 +202,7 @@ export default function TimelinePage() {
                           <span className="relative z-10 text-xs font-heading font-semibold text-foreground truncate">
                             {civ.name}
                           </span>
-                          <span className="relative z-10 ml-auto text-[10px] font-heading text-muted-foreground hidden sm:block shrink-0 pl-2">
+                          <span className="relative z-10 ml-auto text-[10px] font-mono text-muted-foreground hidden sm:block shrink-0 pl-2">
                             {civ.dateRange}
                           </span>
                         </motion.div>

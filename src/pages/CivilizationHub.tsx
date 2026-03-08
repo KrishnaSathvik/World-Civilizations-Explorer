@@ -191,7 +191,7 @@ export default function CivilizationHub() {
                   {/* Content */}
                   <div className={`flex-1 ${i % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"} pl-14 md:pl-0`}>
                     <span
-                      className="inline-block px-2.5 py-1 rounded-full text-xs font-heading font-bold mb-2"
+                      className="inline-block px-2.5 py-1 rounded-full text-xs font-mono font-bold mb-2"
                       style={{
                         backgroundColor: `hsl(var(--${civ.colorKey}) / 0.1)`,
                         color: `hsl(var(--${civ.colorKey}))`,

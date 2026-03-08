@@ -66,7 +66,7 @@ export function CivilizationCard({ civilization, wikiData, isLoading }: Props) {
           </h3>
 
           <div className="flex items-center gap-3 mb-3 text-xs font-heading text-muted-foreground">
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-1 font-mono">
               <Calendar className="h-3 w-3" />
               {civilization.dateRange}
             </span>
