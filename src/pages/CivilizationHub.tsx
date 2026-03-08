@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, Clock, FileText, Database } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, Clock, FileText, Database, Globe } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navbar } from "@/components/Navbar";
@@ -10,6 +10,7 @@ import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/Scroll
 import { Skeleton } from "@/components/ui/skeleton";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
+import { searchCommonsImages } from "@/services/wikimedia-commons";
 import type { WikiSummary } from "@/services/api";
 
 export default function CivilizationHub() {
@@ -44,10 +45,10 @@ export default function CivilizationHub() {
     })),
   });
 
-  // Gallery images
+  // Gallery images from Wikimedia Commons (better quality than Wikipedia image list)
   const galleryQuery = useQuery({
-    queryKey: ["wiki-images", civ?.wikipediaTitle],
-    queryFn: () => fetchWikipediaImages(civ!.wikipediaTitle),
+    queryKey: ["commons-gallery", civ?.name],
+    queryFn: () => searchCommonsImages(civ!.name, 12),
     enabled: !!civ,
     staleTime: 1000 * 60 * 60,
   });
@@ -132,6 +133,10 @@ export default function CivilizationHub() {
                   <Badge variant="secondary" className="font-heading text-[10px] gap-1">
                     <Database className="h-3 w-3" />
                     Wikipedia
+                  </Badge>
+                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
+                    <Globe className="h-3 w-3" />
+                    Wikimedia Commons
                   </Badge>
                   <Badge variant="secondary" className="font-heading text-[10px] gap-1">
                     {civ.timeline.length} events

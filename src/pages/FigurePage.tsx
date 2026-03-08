@@ -1,9 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { User, ExternalLink, MapPin, BookOpen, Clock, Globe, Calendar, ChevronRight } from "lucide-react";
+import { User, ExternalLink, MapPin, BookOpen, Clock, Globe, Calendar, ChevronRight, Database } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
+import { fetchFigureFromWikidata } from "@/services/wikidata";
+import { searchCommonsImages } from "@/services/wikimedia-commons";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -23,9 +25,16 @@ export default function FigurePage() {
   });
 
   const { data: images } = useQuery({
-    queryKey: ["wiki-images", wikiTitle],
-    queryFn: () => fetchWikipediaImages(wikiTitle),
+    queryKey: ["commons-images", wikiTitle],
+    queryFn: () => searchCommonsImages(wikiTitle.replace(/_/g, " "), 8),
     staleTime: 1000 * 60 * 30,
+    enabled: !!wikiTitle,
+  });
+
+  const { data: wikidataInfo } = useQuery({
+    queryKey: ["wikidata-figure", wikiTitle],
+    queryFn: () => fetchFigureFromWikidata(wikiTitle),
+    staleTime: 1000 * 60 * 60,
     enabled: !!wikiTitle,
   });
 
@@ -104,7 +113,32 @@ export default function FigurePage() {
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10">
                       <User className="h-4 w-4 text-primary" />
                       <span className="text-xs font-heading font-medium text-primary">Historical Figure</span>
+                  </div>
+
+                  {/* Wikidata structured metadata */}
+                  {wikidataInfo && (
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3 text-sm text-muted-foreground">
+                      {wikidataInfo.occupation && (
+                        <span className="font-heading">{wikidataInfo.occupation}</span>
+                      )}
+                      {wikidataInfo.birthDate && (
+                        <span className="font-mono text-xs">
+                          b. {wikidataInfo.birthDate}
+                        </span>
+                      )}
+                      {wikidataInfo.deathDate && (
+                        <span className="font-mono text-xs">
+                          d. {wikidataInfo.deathDate}
+                        </span>
+                      )}
+                      {wikidataInfo.birthPlace && (
+                        <span className="font-heading text-xs">📍 {wikidataInfo.birthPlace}</span>
+                      )}
+                      {wikidataInfo.description && (
+                        <span className="font-body text-xs italic">{wikidataInfo.description}</span>
+                      )}
                     </div>
+                  )}
                     {readTime && (
                       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted border border-border">
                         <Clock className="h-3.5 w-3.5 text-muted-foreground" />
@@ -155,7 +189,17 @@ export default function FigurePage() {
                     )}
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
                       <Globe className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-[10px] font-heading text-muted-foreground">Source: Wikipedia</span>
+                      <span className="text-[10px] font-heading text-muted-foreground">Wikipedia</span>
+                    </div>
+                    {wikidataInfo && (
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                        <Database className="h-3 w-3 text-muted-foreground" />
+                        <span className="text-[10px] font-heading text-muted-foreground">Wikidata</span>
+                      </div>
+                    )}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                      <Globe className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-[10px] font-heading text-muted-foreground">Wikimedia Commons</span>
                     </div>
                   </div>
                 </div>

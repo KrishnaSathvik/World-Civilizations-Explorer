@@ -7,10 +7,10 @@ import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/Scroll
 import { motion } from "framer-motion";
 
 const dataSources = [
-  { name: "Wikipedia", url: "https://en.wikipedia.org", description: "Encyclopedic articles, summaries, and images for civilizations, figures, and topics." },
-  { name: "Wikidata", url: "https://www.wikidata.org", description: "Structured data for relationships between historical entities." },
-  { name: "Metropolitan Museum of Art", url: "https://www.metmuseum.org", description: "Open access collection of cultural artifacts and artwork." },
-  { name: "Smithsonian Institution", url: "https://www.si.edu", description: "Research and educational resources spanning human history." },
+  { name: "Wikipedia", url: "https://en.wikipedia.org", description: "Encyclopedic articles, summaries, and images for civilizations, figures, and topics via the REST API." },
+  { name: "Wikidata", url: "https://www.wikidata.org", description: "Structured knowledge graph data for historical entities — dates, coordinates, relationships, and classifications via SPARQL." },
+  { name: "Wikimedia Commons", url: "https://commons.wikimedia.org", description: "90M+ freely usable media files including historical photographs, maps, artwork reproductions, and archaeological site photos." },
+  { name: "Muffinlabs History API", url: "https://history.muffinlabs.com", description: "Wikipedia-sourced daily history data powering the 'This Day in History' feature." },
 ];
 
 const values = [

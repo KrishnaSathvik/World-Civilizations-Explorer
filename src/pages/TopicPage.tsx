@@ -1,9 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery, useQueries } from "@tanstack/react-query";
-import { BookOpen, ExternalLink, MapPin, User, Clock, Globe, Landmark } from "lucide-react";
+import { BookOpen, ExternalLink, MapPin, User, Clock, Globe, Landmark, Database } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
-import { fetchWikipediaSummary, fetchWikipediaImages, WikiSummary } from "@/services/api";
+import { fetchWikipediaSummary, WikiSummary } from "@/services/api";
+import { fetchTopicFromWikidata } from "@/services/wikidata";
+import { searchCommonsImages } from "@/services/wikimedia-commons";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -23,9 +25,16 @@ export default function TopicPage() {
   });
 
   const { data: images } = useQuery({
-    queryKey: ["wiki-images", wikiTitle],
-    queryFn: () => fetchWikipediaImages(wikiTitle),
+    queryKey: ["commons-images", wikiTitle],
+    queryFn: () => searchCommonsImages(wikiTitle.replace(/_/g, " "), 8),
     staleTime: 1000 * 60 * 30,
+    enabled: !!wikiTitle,
+  });
+
+  const { data: wikidataInfo } = useQuery({
+    queryKey: ["wikidata-topic", wikiTitle],
+    queryFn: () => fetchTopicFromWikidata(wikiTitle),
+    staleTime: 1000 * 60 * 60,
     enabled: !!wikiTitle,
   });
 
@@ -159,7 +168,17 @@ export default function TopicPage() {
                     )}
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
                       <Globe className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-[10px] font-heading text-muted-foreground">Source: Wikipedia</span>
+                      <span className="text-[10px] font-heading text-muted-foreground">Wikipedia</span>
+                    </div>
+                    {wikidataInfo && (
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                        <Database className="h-3 w-3 text-muted-foreground" />
+                        <span className="text-[10px] font-heading text-muted-foreground">Wikidata</span>
+                      </div>
+                    )}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                      <Globe className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-[10px] font-heading text-muted-foreground">Wikimedia Commons</span>
                     </div>
                   </div>
                 </div>
