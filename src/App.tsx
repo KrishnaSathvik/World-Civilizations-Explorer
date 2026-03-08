@@ -11,6 +11,7 @@ import TimelinePage from "./pages/TimelinePage";
 import ComparePage from "./pages/ComparePage";
 import EraPage from "./pages/EraPage";
 import FigurePage from "./pages/FigurePage";
+import FiguresIndexPage from "./pages/FiguresIndexPage";
 import TopicPage from "./pages/TopicPage";
 import SearchPage from "./pages/SearchPage";
 import AboutPage from "./pages/AboutPage";
