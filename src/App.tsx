@@ -13,6 +13,10 @@ import EraPage from "./pages/EraPage";
 import FigurePage from "./pages/FigurePage";
 import TopicPage from "./pages/TopicPage";
 import SearchPage from "./pages/SearchPage";
+import AboutPage from "./pages/AboutPage";
+import ContributePage from "./pages/ContributePage";
+import ContactPage from "./pages/ContactPage";
+import NewsletterPage from "./pages/NewsletterPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
