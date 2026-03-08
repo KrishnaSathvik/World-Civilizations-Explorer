@@ -156,7 +156,7 @@ export default function MapPage() {
                   }}
                   className="w-full"
                 />
-                <div className="flex justify-between text-[10px] font-heading text-muted-foreground">
+                <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
                   <span>4000 BCE</span>
                   <span>2000 BCE</span>
                   <span>0</span>

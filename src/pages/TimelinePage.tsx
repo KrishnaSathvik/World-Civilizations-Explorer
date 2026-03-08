@@ -156,7 +156,7 @@ export default function TimelinePage() {
                       style={{ left: `${left}%` }}
                     >
                       <div className="h-full border-l border-border/30" />
-                      <span className="absolute top-2 -translate-x-1/2 text-[10px] font-heading text-muted-foreground whitespace-nowrap">
+                      <span className="absolute top-2 -translate-x-1/2 text-[10px] font-mono text-muted-foreground whitespace-nowrap">
                         {getYearLabel(year)}
                       </span>
                     </div>
