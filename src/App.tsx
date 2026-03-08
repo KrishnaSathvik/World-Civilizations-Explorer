@@ -7,6 +7,11 @@ import Index from "./pages/Index";
 import AskPage from "./pages/AskPage";
 import CivilizationHub from "./pages/CivilizationHub";
 import MapPage from "./pages/MapPage";
+import TimelinePage from "./pages/TimelinePage";
+import ComparePage from "./pages/ComparePage";
+import EraPage from "./pages/EraPage";
+import FigurePage from "./pages/FigurePage";
+import TopicPage from "./pages/TopicPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
@@ -23,6 +28,11 @@ const App = () => (
           <Route path="/ask" element={<AskPage />} />
           <Route path="/civilizations/:slug" element={<CivilizationHub />} />
           <Route path="/map" element={<MapPage />} />
+          <Route path="/timeline" element={<TimelinePage />} />
+          <Route path="/compare" element={<ComparePage />} />
+          <Route path="/era/:slug" element={<EraPage />} />
+          <Route path="/figures/:slug" element={<FigurePage />} />
+          <Route path="/topics/:slug" element={<TopicPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />
