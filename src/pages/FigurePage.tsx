@@ -113,7 +113,32 @@ export default function FigurePage() {
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10">
                       <User className="h-4 w-4 text-primary" />
                       <span className="text-xs font-heading font-medium text-primary">Historical Figure</span>
+                  </div>
+
+                  {/* Wikidata structured metadata */}
+                  {wikidataInfo && (
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3 text-sm text-muted-foreground">
+                      {wikidataInfo.occupation && (
+                        <span className="font-heading">{wikidataInfo.occupation}</span>
+                      )}
+                      {wikidataInfo.birthDate && (
+                        <span className="font-mono text-xs">
+                          b. {wikidataInfo.birthDate}
+                        </span>
+                      )}
+                      {wikidataInfo.deathDate && (
+                        <span className="font-mono text-xs">
+                          d. {wikidataInfo.deathDate}
+                        </span>
+                      )}
+                      {wikidataInfo.birthPlace && (
+                        <span className="font-heading text-xs">📍 {wikidataInfo.birthPlace}</span>
+                      )}
+                      {wikidataInfo.description && (
+                        <span className="font-body text-xs italic">{wikidataInfo.description}</span>
+                      )}
                     </div>
+                  )}
                     {readTime && (
                       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted border border-border">
                         <Clock className="h-3.5 w-3.5 text-muted-foreground" />
