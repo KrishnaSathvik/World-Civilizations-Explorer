@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, Clock } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
