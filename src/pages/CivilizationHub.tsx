@@ -135,6 +135,10 @@ export default function CivilizationHub() {
                     Wikipedia
                   </Badge>
                   <Badge variant="secondary" className="font-heading text-[10px] gap-1">
+                    <Globe className="h-3 w-3" />
+                    Wikimedia Commons
+                  </Badge>
+                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
                     {civ.timeline.length} events
                   </Badge>
                   <Badge variant="secondary" className="font-heading text-[10px] gap-1">
