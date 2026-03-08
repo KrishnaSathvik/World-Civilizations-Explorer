@@ -1,9 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { User, ExternalLink, MapPin, BookOpen, Clock, Globe, Calendar, ChevronRight } from "lucide-react";
+import { User, ExternalLink, MapPin, BookOpen, Clock, Globe, Calendar, ChevronRight, Database } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
+import { fetchFigureFromWikidata } from "@/services/wikidata";
+import { searchCommonsImages } from "@/services/wikimedia-commons";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScrollReveal } from "@/components/ScrollReveal";
