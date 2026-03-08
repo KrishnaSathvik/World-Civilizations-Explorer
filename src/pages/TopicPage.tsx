@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, ArrowLeft, ExternalLink, MapPin } from "lucide-react";
+import { BookOpen, ExternalLink, MapPin, User, Clock, Globe } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
@@ -29,12 +29,19 @@ export default function TopicPage() {
     enabled: !!wikiTitle,
   });
 
-  // Find which civilizations this topic belongs to
   const relatedCivs = civilizations.filter((c) =>
     c.topics.includes(wikiTitle)
   );
 
+  // Related figures from same civilizations
+  const relatedFigures = Array.from(
+    new Set(relatedCivs.flatMap((c) => c.keyFigures))
+  ).slice(0, 10);
+
   const displayName = wikiTitle.replace(/_/g, " ");
+  const readTime = wiki?.extract
+    ? Math.max(1, Math.ceil(wiki.extract.split(/\s+/).length / 200))
+    : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -73,10 +80,19 @@ export default function TopicPage() {
 
                 {/* Info */}
                 <div className="flex-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 mb-4">
-                    <BookOpen className="h-4 w-4 text-primary" />
-                    <span className="text-xs font-heading font-medium text-primary">Topic</span>
+                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10">
+                      <BookOpen className="h-4 w-4 text-primary" />
+                      <span className="text-xs font-heading font-medium text-primary">Topic</span>
+                    </div>
+                    {readTime && (
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted border border-border">
+                        <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                        <span className="text-xs font-mono text-muted-foreground">{readTime} min read</span>
+                      </div>
+                    )}
                   </div>
+
                   <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
                     {displayName}
                   </h1>
@@ -111,18 +127,51 @@ export default function TopicPage() {
                     </p>
                   )}
 
-                  {wiki?.content_urls?.desktop?.page && (
-                    <a href={wiki.content_urls.desktop.page} target="_blank" rel="noopener noreferrer" className="mt-4 inline-block">
-                      <Button variant="outline" size="sm" className="font-heading text-xs gap-1.5">
-                        <ExternalLink className="h-3.5 w-3.5" /> Read on Wikipedia
-                      </Button>
-                    </a>
-                  )}
+                  {/* Source badges & Wikipedia link */}
+                  <div className="flex flex-wrap items-center gap-3 mt-5">
+                    {wiki?.content_urls?.desktop?.page && (
+                      <a href={wiki.content_urls.desktop.page} target="_blank" rel="noopener noreferrer">
+                        <Button variant="outline" size="sm" className="font-heading text-xs gap-1.5">
+                          <ExternalLink className="h-3.5 w-3.5" /> Read on Wikipedia
+                        </Button>
+                      </a>
+                    )}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                      <Globe className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-[10px] font-heading text-muted-foreground">Source: Wikipedia</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </ScrollReveal>
           </div>
         </section>
+
+        {/* Related Figures */}
+        {relatedFigures.length > 0 && (
+          <section className="py-10 md:py-16">
+            <div className="container">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <User className="h-4 w-4 text-primary" />
+                  </div>
+                  <h2 className="font-display text-2xl font-bold text-foreground">Related Figures</h2>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {relatedFigures.map((f) => (
+                    <Link key={f} to={`/figures/${f}`}>
+                      <Badge variant="outline" className="font-heading text-sm py-1.5 px-3 hover:bg-muted cursor-pointer">
+                        <User className="h-3.5 w-3.5 mr-1.5" />
+                        {f.replace(/_/g, " ")}
+                      </Badge>
+                    </Link>
+                  ))}
+                </div>
+              </ScrollReveal>
+            </div>
+          </section>
+        )}
 
         {/* Gallery */}
         {images && images.length > 0 && (
@@ -152,9 +201,9 @@ export default function TopicPage() {
           </section>
         )}
 
-        {/* Related */}
+        {/* Related Civilizations & Other Topics */}
         {relatedCivs.length > 0 && (
-          <section className="py-10 md:py-16">
+          <section className="py-10 md:py-16 bg-secondary/30">
             <div className="container">
               <ScrollReveal>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-6">
@@ -168,7 +217,7 @@ export default function TopicPage() {
                         <h3 className="font-display text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                           {civ.name}
                         </h3>
-                        <p className="text-sm font-heading text-muted-foreground">{civ.dateRange}</p>
+                        <p className="text-sm font-mono text-muted-foreground">{civ.dateRange}</p>
                         <p className="text-sm font-heading text-muted-foreground mt-0.5">{civ.region}</p>
                       </div>
                     </Link>
@@ -176,7 +225,6 @@ export default function TopicPage() {
                 </div>
               </ScrollReveal>
 
-              {/* Other topics from same civs */}
               <ScrollReveal delay={0.15}>
                 <h2 className="font-display text-2xl font-bold text-foreground mt-12 mb-6">
                   Related Topics
