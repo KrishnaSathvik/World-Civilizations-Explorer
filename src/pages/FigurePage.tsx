@@ -189,7 +189,17 @@ export default function FigurePage() {
                     )}
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
                       <Globe className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-[10px] font-heading text-muted-foreground">Source: Wikipedia</span>
+                      <span className="text-[10px] font-heading text-muted-foreground">Wikipedia</span>
+                    </div>
+                    {wikidataInfo && (
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                        <Database className="h-3 w-3 text-muted-foreground" />
+                        <span className="text-[10px] font-heading text-muted-foreground">Wikidata</span>
+                      </div>
+                    )}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
+                      <Globe className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-[10px] font-heading text-muted-foreground">Wikimedia Commons</span>
                     </div>
                   </div>
                 </div>
