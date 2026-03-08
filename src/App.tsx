@@ -28,6 +28,11 @@ const App = () => (
           <Route path="/ask" element={<AskPage />} />
           <Route path="/civilizations/:slug" element={<CivilizationHub />} />
           <Route path="/map" element={<MapPage />} />
+          <Route path="/timeline" element={<TimelinePage />} />
+          <Route path="/compare" element={<ComparePage />} />
+          <Route path="/era/:slug" element={<EraPage />} />
+          <Route path="/figures/:slug" element={<FigurePage />} />
+          <Route path="/topics/:slug" element={<TopicPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />
