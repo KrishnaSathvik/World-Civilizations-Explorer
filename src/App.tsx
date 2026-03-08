@@ -13,6 +13,10 @@ import EraPage from "./pages/EraPage";
 import FigurePage from "./pages/FigurePage";
 import TopicPage from "./pages/TopicPage";
 import SearchPage from "./pages/SearchPage";
+import AboutPage from "./pages/AboutPage";
+import ContributePage from "./pages/ContributePage";
+import ContactPage from "./pages/ContactPage";
+import NewsletterPage from "./pages/NewsletterPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
@@ -35,6 +39,10 @@ const App = () => (
           <Route path="/figures/:slug" element={<FigurePage />} />
           <Route path="/topics/:slug" element={<TopicPage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contribute" element={<ContributePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/newsletter" element={<NewsletterPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />

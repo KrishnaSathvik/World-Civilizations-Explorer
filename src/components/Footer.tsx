@@ -7,13 +7,29 @@ const sourceLogos = [
   { name: "Smithsonian", url: "https://www.si.edu" },
 ];
 
+const navLinks = [
+  { label: "Explore", href: "/" },
+  { label: "Timeline", href: "/timeline" },
+  { label: "Map", href: "/map" },
+  { label: "Compare", href: "/compare" },
+  { label: "AI Assistant", href: "/ask" },
+  { label: "Search", href: "/search" },
+];
+
+const utilLinks = [
+  { label: "About", href: "/about" },
+  { label: "Contribute", href: "/contribute" },
+  { label: "Contact", href: "/contact" },
+  { label: "Newsletter", href: "/newsletter" },
+];
+
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card/50 py-12">
       <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-3">
               <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-display font-bold text-sm">CE</span>
@@ -28,17 +44,34 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Navigation */}
+          {/* Navigate */}
           <div>
             <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Navigate</h4>
             <ul className="space-y-2">
-              {["Explore", "Timeline", "Map", "AI Assistant"].map((item) => (
-                <li key={item}>
+              {navLinks.map((item) => (
+                <li key={item.href}>
                   <Link
-                    to={item === "AI Assistant" ? "/ask" : "/"}
+                    to={item.href}
                     className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {item}
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Project */}
+          <div>
+            <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Project</h4>
+            <ul className="space-y-2">
+              {utilLinks.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    to={item.href}
+                    className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {item.label}
                   </Link>
                 </li>
               ))}
