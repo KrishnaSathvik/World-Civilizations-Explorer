@@ -72,6 +72,13 @@ export default function CivilizationHub() {
 
       {/* Hero */}
       <section className="relative overflow-hidden">
+        <Breadcrumbs
+          items={[
+            { label: civ.era, href: `/era/${civ.era.toLowerCase()}` },
+            { label: civ.name },
+          ]}
+          className="container pt-6 relative z-10"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-primary/5 to-background" />
         {heroImage && (
           <div className="absolute inset-0">
