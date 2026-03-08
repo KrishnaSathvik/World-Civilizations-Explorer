@@ -1,0 +1,87 @@
+import { Link } from "react-router-dom";
+
+const sourceLogos = [
+  { name: "Wikipedia", url: "https://en.wikipedia.org" },
+  { name: "Wikidata", url: "https://www.wikidata.org" },
+  { name: "Met Museum", url: "https://www.metmuseum.org" },
+  { name: "Smithsonian", url: "https://www.si.edu" },
+];
+
+export function Footer() {
+  return (
+    <footer className="border-t border-border bg-card/50 py-12">
+      <div className="container">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+          {/* Brand */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-display font-bold text-sm">CE</span>
+              </div>
+              <span className="font-display text-lg font-bold text-foreground">
+                Cultural Explorer
+              </span>
+            </div>
+            <p className="font-body text-sm text-muted-foreground max-w-sm leading-relaxed">
+              An open-source interactive platform for exploring human cultural history,
+              powered by public APIs and AI-driven insights.
+            </p>
+          </div>
+
+          {/* Navigation */}
+          <div>
+            <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Navigate</h4>
+            <ul className="space-y-2">
+              {["Explore", "Timeline", "Map", "AI Assistant"].map((item) => (
+                <li key={item}>
+                  <Link
+                    to={item === "AI Assistant" ? "/ask" : "/"}
+                    className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Sources */}
+          <div>
+            <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Data Sources</h4>
+            <ul className="space-y-2">
+              {sourceLogos.map((src) => (
+                <li key={src.name}>
+                  <a
+                    href={src.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {src.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="font-heading text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Cultural Explorer. Built with open data.
+          </p>
+          <div className="flex items-center gap-3">
+            {sourceLogos.map((src) => (
+              <span
+                key={src.name}
+                className="inline-flex items-center px-2 py-0.5 rounded-full bg-muted text-[10px] font-heading text-muted-foreground"
+              >
+                {src.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
