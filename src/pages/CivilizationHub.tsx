@@ -283,12 +283,12 @@ export default function CivilizationHub() {
             {topicQueries.map((query, i) => {
               const data = query.data as WikiSummary | undefined;
               return (
-                <motion.a
+                <motion.div
                   key={civ.topics[i]}
                   variants={staggerItem}
-                  href={data?.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${civ.topics[i]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                >
+                <Link
+                  to={`/topics/${civ.topics[i]}`}
                   className="group flex gap-4 p-5 rounded-xl border border-border/60 bg-card hover:border-gold/30 hover:shadow-md transition-all"
                 >
                   <div className="h-24 w-24 rounded-lg overflow-hidden bg-muted shrink-0">
