@@ -376,6 +376,10 @@ export default function CivilizationHub() {
         </div>
       </section>
 
+
+      {/* Museum Artifacts */}
+      <MuseumGallery query={`${civ.name} art history`} title={`${civ.name} — Museum Artifacts`} limit={4} />
+
       <Footer />
     </div>
   );

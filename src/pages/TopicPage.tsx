@@ -287,6 +287,10 @@ export default function TopicPage() {
           </section>
         )}
 
+
+        {/* Museum Artifacts */}
+        <MuseumGallery query={displayName} title={`${displayName} — Museum Artifacts`} limit={4} />
+
         {/* Related Civilizations & Topics */}
         {relatedCivs.length > 0 && (
           <section className="py-10 md:py-16">
