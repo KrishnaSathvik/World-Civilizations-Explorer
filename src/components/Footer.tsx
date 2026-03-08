@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 const sourceLogos = [
   { name: "Wikipedia", url: "https://en.wikipedia.org" },
   { name: "Wikidata", url: "https://www.wikidata.org" },
-  { name: "Met Museum", url: "https://www.metmuseum.org" },
-  { name: "Smithsonian", url: "https://www.si.edu" },
+  { name: "Wikimedia Commons", url: "https://commons.wikimedia.org" },
+  { name: "Muffinlabs", url: "https://history.muffinlabs.com" },
 ];
 
 const navLinks = [
