@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQueries } from "@tanstack/react-query";
 import { Layers, Calendar, ArrowLeft } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary } from "@/services/api";
 import { Navbar } from "@/components/Navbar";
