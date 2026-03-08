@@ -104,15 +104,15 @@ export default function CivilizationHub() {
               </div>
               <div>
                 <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">{civ.name}</h1>
-                <div className="flex flex-wrap items-center gap-4 mt-2 text-sm font-heading text-muted-foreground">
-                  <span className="flex items-center gap-1.5">
+                <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-muted-foreground">
+                  <span className="flex items-center gap-1.5 font-mono text-xs">
                     <Calendar className="h-4 w-4" /> {civ.dateRange}
                   </span>
-                  <span className="flex items-center gap-1.5">
+                  <span className="flex items-center gap-1.5 font-heading">
                     <MapPin className="h-4 w-4" /> {civ.region}
                   </span>
                   <span
-                    className="px-2 py-0.5 rounded-full text-xs font-semibold"
+                    className="px-2 py-0.5 rounded-full text-xs font-semibold font-heading"
                     style={{
                       backgroundColor: `hsl(var(--${civ.colorKey}) / 0.1)`,
                       color: `hsl(var(--${civ.colorKey}))`,
@@ -120,6 +120,25 @@ export default function CivilizationHub() {
                   >
                     {civ.era}
                   </span>
+                </div>
+                {/* Read time + source badges */}
+                <div className="flex flex-wrap items-center gap-2 mt-3">
+                  {mainData?.extract && (
+                    <Badge variant="outline" className="font-heading text-[10px] gap-1">
+                      <FileText className="h-3 w-3" />
+                      {Math.max(1, Math.ceil(mainData.extract.split(/\s+/).length / 200))} min read
+                    </Badge>
+                  )}
+                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
+                    <Database className="h-3 w-3" />
+                    Wikipedia
+                  </Badge>
+                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
+                    {civ.timeline.length} events
+                  </Badge>
+                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
+                    {civ.keyFigures.length} figures
+                  </Badge>
                 </div>
               </div>
             </div>
