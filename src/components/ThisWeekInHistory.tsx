@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTodayInHistory } from "@/services/api";
 import { Calendar, ExternalLink } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
+import { motion } from "framer-motion";
 
 export function ThisWeekInHistory() {
   const { data, isLoading, error } = useQuery({
@@ -14,19 +16,21 @@ export function ThisWeekInHistory() {
   return (
     <section className="py-16 md:py-24 bg-secondary/30">
       <div className="container">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="h-10 w-10 rounded-lg bg-cultural-red/10 flex items-center justify-center">
-            <Calendar className="h-5 w-5 text-cultural-red" />
+        <ScrollReveal>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="h-10 w-10 rounded-lg bg-cultural-red/10 flex items-center justify-center">
+              <Calendar className="h-5 w-5 text-cultural-red" />
+            </div>
+            <div>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                This Day in History
+              </h2>
+              {data && (
+                <p className="text-sm font-heading text-muted-foreground">{data.date}</p>
+              )}
+            </div>
           </div>
-          <div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
-              This Day in History
-            </h2>
-            {data && (
-              <p className="text-sm font-heading text-muted-foreground">{data.date}</p>
-            )}
-          </div>
-        </div>
+        </ScrollReveal>
 
         {error && (
           <p className="text-sm font-body text-muted-foreground">
@@ -34,7 +38,7 @@ export function ThisWeekInHistory() {
           </p>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
           {isLoading &&
             Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="p-4 rounded-lg border border-border/60 bg-card">
@@ -45,8 +49,9 @@ export function ThisWeekInHistory() {
             ))}
 
           {data?.events.map((event, i) => (
-            <div
+            <motion.div
               key={i}
+              variants={staggerItem}
               className="p-4 rounded-lg border border-border/60 bg-card hover:border-cultural-red/30 hover:shadow-sm transition-all group"
             >
               <span className="inline-block px-2 py-0.5 rounded-full bg-cultural-red/10 text-cultural-red text-xs font-heading font-semibold mb-2">
@@ -65,9 +70,9 @@ export function ThisWeekInHistory() {
                   Learn more <ExternalLink className="h-3 w-3" />
                 </a>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

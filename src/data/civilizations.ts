@@ -11,6 +11,14 @@ export interface Civilization {
   description?: string;
   imageUrl?: string;
   articleCount?: number;
+  /** Map coordinates [lat, lng] */
+  coords: [number, number];
+  /** Wikipedia titles for key figures */
+  keyFigures: string[];
+  /** Wikipedia titles for related topics */
+  topics: string[];
+  /** Timeline events (year, description) */
+  timeline: Array<{ year: string; event: string }>;
 }
 
 export const civilizations: Civilization[] = [
@@ -24,6 +32,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Africa",
     colorKey: "civ-egypt",
     wikipediaTitle: "Ancient_Egypt",
+    coords: [26.82, 30.80],
+    keyFigures: ["Cleopatra", "Ramesses_II", "Tutankhamun", "Hatshepsut", "Akhenaten"],
+    topics: ["Egyptian_pyramids", "Hieroglyphics", "Ancient_Egyptian_religion", "Nile"],
+    timeline: [
+      { year: "3100 BCE", event: "Unification of Upper and Lower Egypt under Narmer" },
+      { year: "2560 BCE", event: "Great Pyramid of Giza constructed" },
+      { year: "1332 BCE", event: "Tutankhamun becomes pharaoh" },
+      { year: "1279 BCE", event: "Ramesses II begins his 66-year reign" },
+      { year: "30 BCE", event: "Death of Cleopatra; Egypt becomes a Roman province" },
+    ],
   },
   {
     id: "greece",
@@ -35,6 +53,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Europe",
     colorKey: "civ-greece",
     wikipediaTitle: "Ancient_Greece",
+    coords: [37.97, 23.72],
+    keyFigures: ["Socrates", "Plato", "Aristotle", "Alexander_the_Great", "Pericles"],
+    topics: ["Parthenon", "Ancient_Greek_philosophy", "Greek_mythology", "Olympic_Games"],
+    timeline: [
+      { year: "776 BCE", event: "First Olympic Games held at Olympia" },
+      { year: "508 BCE", event: "Athenian democracy established by Cleisthenes" },
+      { year: "480 BCE", event: "Battle of Thermopylae; Persian invasion" },
+      { year: "432 BCE", event: "Parthenon completed in Athens" },
+      { year: "146 BCE", event: "Greece falls under Roman control" },
+    ],
   },
   {
     id: "rome",
@@ -46,6 +74,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Europe",
     colorKey: "civ-rome",
     wikipediaTitle: "Roman_Empire",
+    coords: [41.90, 12.49],
+    keyFigures: ["Julius_Caesar", "Augustus", "Marcus_Aurelius", "Nero", "Constantine_the_Great"],
+    topics: ["Colosseum", "Roman_roads", "Roman_law", "Roman_aqueduct"],
+    timeline: [
+      { year: "27 BCE", event: "Augustus becomes the first Roman Emperor" },
+      { year: "80 CE", event: "Colosseum inaugurated in Rome" },
+      { year: "117 CE", event: "Roman Empire reaches its greatest territorial extent" },
+      { year: "313 CE", event: "Edict of Milan legalizes Christianity" },
+      { year: "476 CE", event: "Fall of the Western Roman Empire" },
+    ],
   },
   {
     id: "china",
@@ -57,6 +95,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Asia",
     colorKey: "civ-china",
     wikipediaTitle: "Imperial_China",
+    coords: [39.90, 116.39],
+    keyFigures: ["Qin_Shi_Huang", "Confucius", "Wu_Zetian", "Zheng_He", "Sun_Tzu"],
+    topics: ["Great_Wall_of_China", "Silk_Road", "Chinese_philosophy", "Terracotta_Army"],
+    timeline: [
+      { year: "221 BCE", event: "Qin Shi Huang unifies China" },
+      { year: "206 BCE", event: "Han Dynasty begins; Silk Road trade established" },
+      { year: "618 CE", event: "Tang Dynasty begins — a cultural golden age" },
+      { year: "1405 CE", event: "Zheng He begins his maritime voyages" },
+      { year: "1912 CE", event: "Last emperor abdicates; Republic proclaimed" },
+    ],
   },
   {
     id: "india",
@@ -68,6 +116,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Asia",
     colorKey: "civ-india",
     wikipediaTitle: "History_of_India",
+    coords: [28.61, 77.20],
+    keyFigures: ["Ashoka", "Chandragupta_Maurya", "Aryabhata", "Kalidasa", "Gautama_Buddha"],
+    topics: ["Indus_Valley_Civilisation", "Vedas", "Maurya_Empire", "Gupta_Empire"],
+    timeline: [
+      { year: "2600 BCE", event: "Indus Valley Civilization flourishes" },
+      { year: "1500 BCE", event: "Vedic period begins" },
+      { year: "322 BCE", event: "Chandragupta Maurya founds the Maurya Empire" },
+      { year: "269 BCE", event: "Ashoka the Great begins his reign" },
+      { year: "320 CE", event: "Gupta Empire ushers in a golden age of science and art" },
+    ],
   },
   {
     id: "japan",
@@ -79,6 +137,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Asia",
     colorKey: "civ-japan",
     wikipediaTitle: "Feudal_Japan",
+    coords: [35.68, 139.69],
+    keyFigures: ["Tokugawa_Ieyasu", "Oda_Nobunaga", "Miyamoto_Musashi", "Murasaki_Shikibu", "Toyotomi_Hideyoshi"],
+    topics: ["Samurai", "Bushido", "Zen", "Kabuki"],
+    timeline: [
+      { year: "1185", event: "Kamakura Shogunate established" },
+      { year: "1274", event: "First Mongol invasion of Japan" },
+      { year: "1467", event: "Ōnin War begins the Sengoku period" },
+      { year: "1603", event: "Tokugawa Shogunate begins 250 years of peace" },
+      { year: "1868", event: "Meiji Restoration ends feudalism" },
+    ],
   },
   {
     id: "islamic",
@@ -90,6 +158,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Middle East",
     colorKey: "civ-islamic",
     wikipediaTitle: "Islamic_Golden_Age",
+    coords: [33.31, 44.36],
+    keyFigures: ["Al-Khwarizmi", "Ibn_Sina", "Al-Biruni", "Ibn_Rushd", "Rumi"],
+    topics: ["House_of_Wisdom", "Islamic_architecture", "Arabic_numerals", "Islamic_art"],
+    timeline: [
+      { year: "750 CE", event: "Abbasid Caliphate established in Baghdad" },
+      { year: "830 CE", event: "House of Wisdom founded — center of learning" },
+      { year: "1000 CE", event: "Ibn Sina writes The Canon of Medicine" },
+      { year: "1100 CE", event: "Al-Idrisi creates the most advanced world map" },
+      { year: "1258 CE", event: "Mongol siege of Baghdad ends the Golden Age" },
+    ],
   },
   {
     id: "mesoamerican",
@@ -101,6 +179,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Americas",
     colorKey: "civ-mesoamerican",
     wikipediaTitle: "Mesoamerica",
+    coords: [19.43, -99.13],
+    keyFigures: ["Montezuma_II", "Pacal_the_Great", "Nezahualcoyotl", "Topiltzin_Ce_Acatl_Quetzalcoatl"],
+    topics: ["Maya_civilization", "Aztec", "Chichen_Itza", "Mesoamerican_calendar"],
+    timeline: [
+      { year: "2000 BCE", event: "Olmec civilization emerges — mother culture" },
+      { year: "250 CE", event: "Classic Maya period begins" },
+      { year: "900 CE", event: "Mysterious Maya collapse in the lowlands" },
+      { year: "1325 CE", event: "Aztecs found Tenochtitlan" },
+      { year: "1521 CE", event: "Spanish conquest ends the Aztec Empire" },
+    ],
   },
   {
     id: "african",
@@ -112,6 +200,16 @@ export const civilizations: Civilization[] = [
     regionGroup: "Africa",
     colorKey: "civ-african",
     wikipediaTitle: "African_empires",
+    coords: [12.65, -8.00],
+    keyFigures: ["Mansa_Musa", "Sundiata_Keita", "Shaka_Zulu", "Queen_Nzinga"],
+    topics: ["Mali_Empire", "Great_Zimbabwe", "Kingdom_of_Aksum", "Timbuktu"],
+    timeline: [
+      { year: "300 CE", event: "Kingdom of Aksum reaches its peak" },
+      { year: "1235 CE", event: "Sundiata Keita founds the Mali Empire" },
+      { year: "1324 CE", event: "Mansa Musa's legendary pilgrimage to Mecca" },
+      { year: "1464 CE", event: "Songhai Empire rises under Sunni Ali" },
+      { year: "1897 CE", event: "British sack Benin City" },
+    ],
   },
   {
     id: "western",
@@ -123,5 +221,15 @@ export const civilizations: Civilization[] = [
     regionGroup: "Europe",
     colorKey: "civ-western",
     wikipediaTitle: "Western_civilization",
+    coords: [48.85, 2.35],
+    keyFigures: ["Leonardo_da_Vinci", "Isaac_Newton", "Marie_Curie", "Albert_Einstein", "Ada_Lovelace"],
+    topics: ["Renaissance", "Age_of_Enlightenment", "Industrial_Revolution", "Scientific_Revolution"],
+    timeline: [
+      { year: "1440", event: "Gutenberg invents the printing press" },
+      { year: "1687", event: "Newton publishes Principia Mathematica" },
+      { year: "1760", event: "Industrial Revolution begins in Britain" },
+      { year: "1789", event: "French Revolution transforms political thought" },
+      { year: "1969", event: "Moon landing — pinnacle of modern science" },
+    ],
   },
 ];

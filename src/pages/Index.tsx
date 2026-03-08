@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { CivilizationGrid } from "@/components/CivilizationGrid";
+import { WorldMap } from "@/components/WorldMap";
 import { ThisWeekInHistory } from "@/components/ThisWeekInHistory";
 import { Newsletter } from "@/components/Newsletter";
 import { Footer } from "@/components/Footer";
@@ -12,6 +13,7 @@ const Index = () => {
       <main>
         <HeroSection />
         <CivilizationGrid />
+        <WorldMap />
         <ThisWeekInHistory />
         <Newsletter />
       </main>
