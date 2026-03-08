@@ -25,9 +25,16 @@ export default function FigurePage() {
   });
 
   const { data: images } = useQuery({
-    queryKey: ["wiki-images", wikiTitle],
-    queryFn: () => fetchWikipediaImages(wikiTitle),
+    queryKey: ["commons-images", wikiTitle],
+    queryFn: () => searchCommonsImages(wikiTitle.replace(/_/g, " "), 8),
     staleTime: 1000 * 60 * 30,
+    enabled: !!wikiTitle,
+  });
+
+  const { data: wikidataInfo } = useQuery({
+    queryKey: ["wikidata-figure", wikiTitle],
+    queryFn: () => fetchFigureFromWikidata(wikiTitle),
+    staleTime: 1000 * 60 * 60,
     enabled: !!wikiTitle,
   });
 
