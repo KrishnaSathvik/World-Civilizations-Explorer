@@ -22,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/ask" element={<AskPage />} />
           <Route path="/civilizations/:slug" element={<CivilizationHub />} />
+          <Route path="/map" element={<MapPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />
