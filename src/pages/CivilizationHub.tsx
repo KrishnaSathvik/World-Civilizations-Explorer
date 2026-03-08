@@ -259,7 +259,8 @@ export default function CivilizationHub() {
                       {data.extract.slice(0, 80)}...
                     </p>
                   )}
-                </motion.a>
+                </Link>
+                </motion.div>
               );
             })}
           </StaggerContainer>
