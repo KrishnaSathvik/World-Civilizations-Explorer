@@ -184,7 +184,7 @@ export default function MapPage() {
                 projection="geoMercator"
                 projectionConfig={{ scale: 130, center: [20, 20] }}
                 className="w-full"
-                style={{ aspectRatio: "2 / 1" }}
+                style={{ aspectRatio: "16 / 9" }}
               >
                 <ZoomableGroup>
                   <MemoizedGeographies />
