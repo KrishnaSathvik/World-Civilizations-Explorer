@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import AskPage from "./pages/AskPage";
+import CivilizationHub from "./pages/CivilizationHub";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
@@ -19,6 +20,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/ask" element={<AskPage />} />
+          <Route path="/civilizations/:slug" element={<CivilizationHub />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />
