@@ -232,12 +232,12 @@ export default function CivilizationHub() {
             {figureQueries.map((query, i) => {
               const data = query.data as WikiSummary | undefined;
               return (
-                <motion.a
+                <motion.div
                   key={civ.keyFigures[i]}
                   variants={staggerItem}
-                  href={data?.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${civ.keyFigures[i]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                >
+                <Link
+                  to={`/figures/${civ.keyFigures[i]}`}
                   className="group block p-4 rounded-xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-md transition-all"
                 >
                   <div className="h-20 w-20 mx-auto rounded-full overflow-hidden bg-muted mb-3">
@@ -259,7 +259,8 @@ export default function CivilizationHub() {
                       {data.extract.slice(0, 80)}...
                     </p>
                   )}
-                </motion.a>
+                </Link>
+                </motion.div>
               );
             })}
           </StaggerContainer>
@@ -282,12 +283,12 @@ export default function CivilizationHub() {
             {topicQueries.map((query, i) => {
               const data = query.data as WikiSummary | undefined;
               return (
-                <motion.a
+                <motion.div
                   key={civ.topics[i]}
                   variants={staggerItem}
-                  href={data?.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${civ.topics[i]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                >
+                <Link
+                  to={`/topics/${civ.topics[i]}`}
                   className="group flex gap-4 p-5 rounded-xl border border-border/60 bg-card hover:border-gold/30 hover:shadow-md transition-all"
                 >
                   <div className="h-24 w-24 rounded-lg overflow-hidden bg-muted shrink-0">
@@ -311,7 +312,8 @@ export default function CivilizationHub() {
                       </p>
                     )}
                   </div>
-                </motion.a>
+                </Link>
+                </motion.div>
               );
             })}
           </StaggerContainer>
