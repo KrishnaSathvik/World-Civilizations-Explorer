@@ -41,22 +41,28 @@ export function HeroSection() {
           </p>
 
           {/* Search bar */}
-          <motion.div
+          <motion.form
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             className="relative max-w-xl mx-auto mb-12"
+            action="/search"
+            method="get"
           >
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
+              name="q"
               placeholder="Search civilizations, key figures, events..."
-              className="pl-12 h-14 text-base font-body rounded-xl border-border/80 bg-card shadow-lg shadow-primary/5"
+              className="pl-12 pr-28 h-12 sm:h-14 text-sm sm:text-base font-body rounded-xl border-border/80 bg-card shadow-lg shadow-primary/5"
             />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 h-10 px-4 bg-primary text-primary-foreground rounded-lg font-heading text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2">
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-8 sm:h-10 px-3 sm:px-4 bg-primary text-primary-foreground rounded-lg font-heading text-xs sm:text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-1.5"
+            >
               Explore
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </button>
-          </motion.div>
+          </motion.form>
 
           {/* Civilization quick-links */}
           <motion.div

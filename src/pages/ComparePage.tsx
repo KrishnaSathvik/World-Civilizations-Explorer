@@ -68,7 +68,7 @@ function ComparisonColumn({ civ }: { civ: Civilization }) {
         <div className="space-y-2">
           {civ.timeline.map((t, i) => (
             <div key={i} className="flex gap-2 text-xs">
-              <span className="font-heading font-bold text-primary shrink-0 w-20">{t.year}</span>
+              <span className="font-mono font-bold text-primary shrink-0 w-20">{t.year}</span>
               <span className="font-body text-muted-foreground">{t.event}</span>
             </div>
           ))}

@@ -156,7 +156,7 @@ export default function MapPage() {
                   }}
                   className="w-full"
                 />
-                <div className="flex justify-between text-[10px] font-heading text-muted-foreground">
+                <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
                   <span>4000 BCE</span>
                   <span>2000 BCE</span>
                   <span>0</span>
@@ -184,7 +184,7 @@ export default function MapPage() {
                 projection="geoMercator"
                 projectionConfig={{ scale: 130, center: [20, 20] }}
                 className="w-full"
-                style={{ aspectRatio: "2 / 1" }}
+                style={{ aspectRatio: "16 / 9" }}
               >
                 <ZoomableGroup>
                   <MemoizedGeographies />
@@ -245,7 +245,7 @@ export default function MapPage() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
-                    className="absolute top-4 right-4 w-80 max-h-[calc(100%-2rem)] overflow-y-auto rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
+                    className="absolute bottom-4 left-4 right-4 sm:top-4 sm:bottom-auto sm:left-auto sm:right-4 sm:w-80 max-h-[60vh] sm:max-h-[calc(100%-2rem)] overflow-y-auto rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
                   >
                     <div className="p-5">
                       {/* Header */}
@@ -259,7 +259,7 @@ export default function MapPage() {
                           </div>
                           <div>
                             <h3 className="font-display text-base font-bold text-foreground">{selectedCiv.name}</h3>
-                            <p className="text-xs font-heading text-muted-foreground">{selectedCiv.dateRange}</p>
+                            <p className="text-xs font-mono text-muted-foreground">{selectedCiv.dateRange}</p>
                           </div>
                         </div>
                         <Button
@@ -290,7 +290,7 @@ export default function MapPage() {
                         <div className="space-y-1.5">
                           {selectedCiv.timeline.slice(0, 3).map((t, i) => (
                             <div key={i} className="flex gap-2 text-xs">
-                              <span className="font-heading font-semibold text-primary shrink-0 w-16">
+                              <span className="font-mono font-semibold text-primary shrink-0 w-16">
                                 {t.year}
                               </span>
                               <span className="font-body text-muted-foreground">{t.event}</span>

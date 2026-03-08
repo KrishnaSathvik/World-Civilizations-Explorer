@@ -17,6 +17,7 @@ export default {
         display: ["'Playfair Display'", "serif"],
         heading: ["'DM Sans'", "sans-serif"],
         body: ["'Source Serif 4'", "serif"],
+        mono: ["'JetBrains Mono'", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
