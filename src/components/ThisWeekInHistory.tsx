@@ -54,7 +54,7 @@ export function ThisWeekInHistory() {
               variants={staggerItem}
               className="p-4 rounded-lg border border-border/60 bg-card hover:border-cultural-red/30 hover:shadow-sm transition-all group"
             >
-              <span className="inline-block px-2 py-0.5 rounded-full bg-cultural-red/10 text-cultural-red text-xs font-heading font-semibold mb-2">
+              <span className="inline-block px-2 py-0.5 rounded-full bg-cultural-red/10 text-cultural-red text-xs font-mono font-semibold mb-2">
                 {event.year}
               </span>
               <p className="text-sm font-body text-foreground leading-relaxed line-clamp-3">
