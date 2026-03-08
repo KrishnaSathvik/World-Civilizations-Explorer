@@ -88,33 +88,6 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Rijksmuseum
-    if (!source || source === 'rijksmuseum') {
-      const rijksKey = Deno.env.get('RIJKSMUSEUM_API_KEY');
-      if (rijksKey) {
-        try {
-          const rijksRes = await fetch(
-            `https://www.rijksmuseum.nl/api/en/collection?key=${rijksKey}&q=${encodeURIComponent(query)}&ps=${limit}&imgonly=True&format=json`
-          );
-          if (rijksRes.ok) {
-            const rijksData = await rijksRes.json();
-            results.data.rijksmuseum = (rijksData.artObjects || []).map((r: any) => ({
-              id: r.objectNumber || '',
-              title: r.title || 'Untitled',
-              artist: r.principalOrFirstMaker || '',
-              imageUrl: r.webImage?.url || '',
-              thumbUrl: r.headerImage?.url || r.webImage?.url || '',
-              url: r.links?.web || '',
-              longTitle: r.longTitle || '',
-            })).filter((item: any) => item.imageUrl);
-          }
-        } catch (e) {
-          console.error('Rijksmuseum error:', e);
-          results.data.rijksmuseum = [];
-        }
-      }
-    }
-
     return new Response(
       JSON.stringify(results),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

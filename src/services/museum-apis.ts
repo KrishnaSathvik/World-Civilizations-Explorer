@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { searchRijksmuseum, RijksmuseumArtwork } from "@/services/rijksmuseum";
 
 export interface MuseumArtwork {
   id: string;
