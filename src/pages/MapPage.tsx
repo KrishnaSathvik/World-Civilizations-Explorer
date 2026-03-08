@@ -259,7 +259,7 @@ export default function MapPage() {
                           </div>
                           <div>
                             <h3 className="font-display text-base font-bold text-foreground">{selectedCiv.name}</h3>
-                            <p className="text-xs font-heading text-muted-foreground">{selectedCiv.dateRange}</p>
+                            <p className="text-xs font-mono text-muted-foreground">{selectedCiv.dateRange}</p>
                           </div>
                         </div>
                         <Button
