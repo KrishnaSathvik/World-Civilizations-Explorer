@@ -37,6 +37,7 @@ const App = () => (
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/era/:slug" element={<EraPage />} />
+          <Route path="/figures" element={<FiguresIndexPage />} />
           <Route path="/figures/:slug" element={<FigurePage />} />
           <Route path="/topics/:slug" element={<TopicPage />} />
           <Route path="/search" element={<SearchPage />} />
