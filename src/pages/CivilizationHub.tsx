@@ -45,10 +45,10 @@ export default function CivilizationHub() {
     })),
   });
 
-  // Gallery images
+  // Gallery images from Wikimedia Commons (better quality than Wikipedia image list)
   const galleryQuery = useQuery({
-    queryKey: ["wiki-images", civ?.wikipediaTitle],
-    queryFn: () => fetchWikipediaImages(civ!.wikipediaTitle),
+    queryKey: ["commons-gallery", civ?.name],
+    queryFn: () => searchCommonsImages(civ!.name, 12),
     enabled: !!civ,
     staleTime: 1000 * 60 * 60,
   });
