@@ -1,17 +1,41 @@
-import { useState } from "react";
+import { useState, memo } from "react";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  Marker,
+} from "react-simple-maps";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Globe } from "lucide-react";
+import { MapPin, Globe, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { civilizations } from "@/data/civilizations";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { Button } from "@/components/ui/button";
 
-// Simple equirectangular projection: convert lat/lng to SVG percentage
-function toSvg(lat: number, lng: number): { x: number; y: number } {
-  return {
-    x: ((lng + 180) / 360) * 100,
-    y: ((90 - lat) / 180) * 100,
-  };
-}
+const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+
+const MemoizedGeographies = memo(function MemoGeo() {
+  return (
+    <Geographies geography={GEO_URL}>
+      {({ geographies }) =>
+        geographies.map((geo) => (
+          <Geography
+            key={geo.rsmKey}
+            geography={geo}
+            fill="hsl(var(--muted))"
+            stroke="hsl(var(--border))"
+            strokeWidth={0.5}
+            style={{
+              default: { outline: "none", opacity: 0.7 },
+              hover: { outline: "none", opacity: 0.7 },
+              pressed: { outline: "none" },
+            }}
+          />
+        ))
+      }
+    </Geographies>
+  );
+});
 
 export function WorldMap() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -37,85 +61,56 @@ export function WorldMap() {
 
         <ScrollReveal delay={0.2}>
           <div className="relative max-w-5xl mx-auto">
-            {/* Map container */}
-            <div className="relative aspect-[2/1] rounded-2xl border border-border/60 bg-card overflow-hidden shadow-lg">
-              {/* Simple world map background using SVG */}
-              <svg
-                viewBox="0 0 100 50"
-                className="w-full h-full"
-                preserveAspectRatio="xMidYMid meet"
+            <div className="relative rounded-2xl border border-border/60 bg-card overflow-hidden shadow-lg">
+              <ComposableMap
+                projection="geoMercator"
+                projectionConfig={{ scale: 130, center: [20, 20] }}
+                className="w-full"
+                style={{ aspectRatio: "2 / 1" }}
               >
-                {/* Ocean */}
-                <rect width="100" height="50" fill="hsl(var(--secondary))" opacity="0.5" />
+                <MemoizedGeographies />
 
-                {/* Simplified continent shapes */}
-                {/* North America */}
-                <path d="M10,8 Q15,5 22,7 L25,10 Q27,14 25,18 L20,22 Q18,20 15,20 L12,18 Q8,14 10,8Z" fill="hsl(var(--muted))" opacity="0.6" />
-                {/* South America */}
-                <path d="M22,24 Q25,22 27,24 L28,28 Q29,32 27,36 L25,40 Q23,42 22,40 L20,35 Q19,30 22,24Z" fill="hsl(var(--muted))" opacity="0.6" />
-                {/* Europe */}
-                <path d="M45,6 Q50,5 54,7 L55,10 Q53,13 50,14 L47,13 Q44,11 45,6Z" fill="hsl(var(--muted))" opacity="0.6" />
-                {/* Africa */}
-                <path d="M45,16 Q50,14 55,16 L57,20 Q58,26 56,32 L53,36 Q50,38 48,36 L46,30 Q44,24 45,16Z" fill="hsl(var(--muted))" opacity="0.6" />
-                {/* Asia */}
-                <path d="M55,5 Q65,3 80,6 L85,10 Q87,15 85,20 L80,22 Q75,24 70,22 L65,20 Q60,16 55,12 L55,5Z" fill="hsl(var(--muted))" opacity="0.6" />
-                {/* Australia */}
-                <path d="M78,32 Q82,30 86,32 L87,35 Q86,38 83,38 L80,37 Q77,35 78,32Z" fill="hsl(var(--muted))" opacity="0.6" />
-
-                {/* Grid lines */}
-                {[0, 10, 20, 30, 40, 50].map((y) => (
-                  <line key={`h${y}`} x1="0" y1={y} x2="100" y2={y} stroke="hsl(var(--border))" strokeWidth="0.1" opacity="0.3" />
-                ))}
-                {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((x) => (
-                  <line key={`v${x}`} x1={x} y1="0" x2={x} y2="50" stroke="hsl(var(--border))" strokeWidth="0.1" opacity="0.3" />
-                ))}
-
-                {/* Civilization markers */}
                 {civilizations.map((civ) => {
-                  const pos = toSvg(civ.coords[0], civ.coords[1]);
                   const isHovered = hoveredId === civ.id;
                   return (
-                    <Link key={civ.id} to={`/civilizations/${civ.slug}`}>
-                      <g
-                        onMouseEnter={() => setHoveredId(civ.id)}
-                        onMouseLeave={() => setHoveredId(null)}
-                        className="cursor-pointer"
-                      >
-                        {/* Pulse ring */}
+                    <Marker
+                      key={civ.id}
+                      coordinates={[civ.coords[1], civ.coords[0]]}
+                      onMouseEnter={() => setHoveredId(civ.id)}
+                      onMouseLeave={() => setHoveredId(null)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <Link to={`/civilizations/${civ.slug}`}>
                         <circle
-                          cx={pos.x}
-                          cy={pos.y / 2}
-                          r={isHovered ? 2.5 : 1.5}
+                          r={isHovered ? 10 : 6}
                           fill="none"
                           stroke={`hsl(var(--${civ.colorKey}))`}
-                          strokeWidth="0.2"
+                          strokeWidth={1}
                           opacity={isHovered ? 0.6 : 0.3}
                           className="transition-all duration-300"
                         />
-                        {/* Main dot */}
                         <circle
-                          cx={pos.x}
-                          cy={pos.y / 2}
-                          r={isHovered ? 1.2 : 0.8}
+                          r={isHovered ? 5 : 3.5}
                           fill={`hsl(var(--${civ.colorKey}))`}
+                          stroke="hsl(var(--background))"
+                          strokeWidth={1}
                           className="transition-all duration-300"
                         />
-                        {/* Label (on hover) */}
                         {isHovered && (
                           <text
-                            x={pos.x}
-                            y={pos.y / 2 - 2.5}
                             textAnchor="middle"
-                            className="text-[1.5px] font-heading fill-foreground"
+                            y={-14}
+                            className="font-heading text-[10px] fill-foreground font-medium"
+                            style={{ pointerEvents: "none" }}
                           >
                             {civ.name}
                           </text>
                         )}
-                      </g>
-                    </Link>
+                      </Link>
+                    </Marker>
                   );
                 })}
-              </svg>
+              </ComposableMap>
 
               {/* Hover tooltip */}
               <AnimatePresence>
@@ -148,6 +143,17 @@ export function WorldMap() {
                   </motion.div>
                 )}
               </AnimatePresence>
+            </div>
+
+            {/* CTA to full map page */}
+            <div className="mt-6 text-center">
+              <Link to="/map">
+                <Button variant="outline" className="font-heading text-sm gap-2">
+                  <Globe className="h-4 w-4" />
+                  Open Full Interactive Map
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           </div>
         </ScrollReveal>
