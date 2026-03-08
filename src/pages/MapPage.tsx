@@ -290,7 +290,7 @@ export default function MapPage() {
                         <div className="space-y-1.5">
                           {selectedCiv.timeline.slice(0, 3).map((t, i) => (
                             <div key={i} className="flex gap-2 text-xs">
-                              <span className="font-heading font-semibold text-primary shrink-0 w-16">
+                              <span className="font-mono font-semibold text-primary shrink-0 w-16">
                                 {t.year}
                               </span>
                               <span className="font-body text-muted-foreground">{t.event}</span>
