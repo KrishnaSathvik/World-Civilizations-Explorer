@@ -62,6 +62,27 @@ export default function CivilizationHub() {
 
   useAutoEmbed(mainQuery.data);
 
+  // Dynamic AI-generated timeline
+  const timelineQuery = useQuery({
+    queryKey: ["dynamic-timeline", civ?.slug],
+    queryFn: async () => {
+      const { data, error } = await supabase.functions.invoke("generate-timeline", {
+        body: { slug: civ!.slug, name: civ!.name, dateRange: civ!.dateRange },
+      });
+      if (error) throw error;
+      return data.events as { year: string; event: string }[];
+    },
+    enabled: !!civ,
+    staleTime: 1000 * 60 * 60 * 24, // 24h — cached in DB anyway
+    retry: 1,
+  });
+
+  // Use dynamic events if available, fallback to hardcoded
+  const timelineEvents = timelineQuery.data && timelineQuery.data.length > 0
+    ? timelineQuery.data
+    : civ?.timeline || [];
+  const isTimelineDynamic = !!timelineQuery.data && timelineQuery.data.length > 0;
+
   if (!civ) {
     return (
       <div className="min-h-screen bg-background">
