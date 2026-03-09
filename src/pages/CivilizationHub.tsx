@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe, Clock, ChevronRight } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe, Clock, ChevronRight, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 import { LOCGallery } from "@/components/LOCGallery";
 import { SitePhotos } from "@/components/SitePhotos";
@@ -60,6 +61,27 @@ export default function CivilizationHub() {
   });
 
   useAutoEmbed(mainQuery.data);
+
+  // Dynamic AI-generated timeline
+  const timelineQuery = useQuery({
+    queryKey: ["dynamic-timeline", civ?.slug],
+    queryFn: async () => {
+      const { data, error } = await supabase.functions.invoke("generate-timeline", {
+        body: { slug: civ!.slug, name: civ!.name, dateRange: civ!.dateRange },
+      });
+      if (error) throw error;
+      return data.events as { year: string; event: string }[];
+    },
+    enabled: !!civ,
+    staleTime: 1000 * 60 * 60 * 24, // 24h — cached in DB anyway
+    retry: 1,
+  });
+
+  // Use dynamic events if available, fallback to hardcoded
+  const timelineEvents = timelineQuery.data && timelineQuery.data.length > 0
+    ? timelineQuery.data
+    : civ?.timeline || [];
+  const isTimelineDynamic = !!timelineQuery.data && timelineQuery.data.length > 0;
 
   if (!civ) {
     return (
@@ -171,7 +193,7 @@ export default function CivilizationHub() {
         </div>
       </section>
 
-      {/* === Static Timeline (from curated data) === */}
+      {/* === Timeline === */}
       <section className="py-16 md:py-20 bg-secondary/30">
         <div className="container">
           <ScrollReveal>
@@ -181,42 +203,62 @@ export default function CivilizationHub() {
               </div>
               <div>
                 <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Key Events Timeline</h2>
-                <p className="text-sm font-heading text-muted-foreground mt-1">
-                  {civ.timeline.length} pivotal moments spanning {civ.dateRange}
-                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  <p className="text-sm font-heading text-muted-foreground">
+                    {timelineEvents.length} pivotal moments spanning {civ.dateRange}
+                  </p>
+                  {isTimelineDynamic && (
+                    <Badge variant="outline" className="font-heading text-[10px] gap-1">
+                      <Sparkles className="h-3 w-3" /> AI-Generated
+                    </Badge>
+                  )}
+                  {timelineQuery.isLoading && (
+                    <Badge variant="outline" className="font-heading text-[10px] gap-1 animate-pulse">
+                      <Sparkles className="h-3 w-3" /> Generating...
+                    </Badge>
+                  )}
+                </div>
               </div>
             </div>
           </ScrollReveal>
 
-          <div className="relative max-w-3xl mx-auto">
-            <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px" style={{ backgroundColor: `hsl(var(--${civ.colorKey}) / 0.3)` }} />
-            <StaggerContainer className="space-y-6" staggerDelay={0.06}>
-              {civ.timeline.map((t, i) => (
-                <motion.div
-                  key={i}
-                  variants={staggerItem}
-                  className="relative pl-12 md:pl-20"
-                >
-                  <div
-                    className="absolute left-2.5 md:left-6.5 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-background z-10"
-                    style={{ backgroundColor: `hsl(var(--${civ.colorKey}))` }}
-                  />
-                  <div className="p-4 rounded-xl border border-border/60 bg-card hover:shadow-md transition-shadow">
-                    <span
-                      className="inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-bold mb-2"
-                      style={{
-                        backgroundColor: `hsl(var(--${civ.colorKey}) / 0.1)`,
-                        color: `hsl(var(--${civ.colorKey}))`,
-                      }}
-                    >
-                      {t.year}
-                    </span>
-                    <p className="font-body text-foreground leading-relaxed">{t.event}</p>
-                  </div>
-                </motion.div>
+          {timelineQuery.isLoading && timelineEvents.length <= (civ.timeline?.length || 0) ? (
+            <div className="max-w-3xl mx-auto space-y-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className="h-20 w-full rounded-xl" />
               ))}
-            </StaggerContainer>
-          </div>
+            </div>
+          ) : (
+            <div className="relative max-w-3xl mx-auto">
+              <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px" style={{ backgroundColor: `hsl(var(--${civ.colorKey}) / 0.3)` }} />
+              <StaggerContainer className="space-y-6" staggerDelay={0.04}>
+                {timelineEvents.map((t, i) => (
+                  <motion.div
+                    key={i}
+                    variants={staggerItem}
+                    className="relative pl-12 md:pl-20"
+                  >
+                    <div
+                      className="absolute left-2.5 md:left-6.5 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-background z-10"
+                      style={{ backgroundColor: `hsl(var(--${civ.colorKey}))` }}
+                    />
+                    <div className="p-4 rounded-xl border border-border/60 bg-card hover:shadow-md transition-shadow">
+                      <span
+                        className="inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-bold mb-2"
+                        style={{
+                          backgroundColor: `hsl(var(--${civ.colorKey}) / 0.1)`,
+                          color: `hsl(var(--${civ.colorKey}))`,
+                        }}
+                      >
+                        {t.year}
+                      </span>
+                      <p className="font-body text-foreground leading-relaxed">{t.event}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </StaggerContainer>
+            </div>
+          )}
         </div>
       </section>
 
