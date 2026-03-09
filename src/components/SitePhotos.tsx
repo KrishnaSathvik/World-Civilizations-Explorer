@@ -3,7 +3,7 @@ import { searchUnsplashPhotos, type UnsplashPhoto } from "@/services/unsplash";
 import { Camera, ExternalLink } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
-import { Badge } from "@/components/ui/badge";
+import { SourceBadge } from "@/components/SourceBadge";
 import { motion } from "framer-motion";
 
 interface SitePhotosProps {
