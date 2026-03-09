@@ -71,21 +71,22 @@ export function WorldMap() {
 
         <ScrollReveal delay={0.2}>
           <div className="relative max-w-5xl mx-auto">
-            {isMobile ? (
-              /* Mobile: show a grid of civilization cards instead of a tiny map */
-              <MobileCivList />
-            ) : (
-              /* Desktop: full interactive map */
-              <div
-                className="relative rounded-2xl border border-border/60 bg-card overflow-hidden shadow-lg"
-                onClick={() => setSelectedId(null)}
+            <div
+              className="relative rounded-2xl border border-border/60 bg-card overflow-x-auto overflow-y-hidden shadow-lg"
+              onClick={() => setSelectedId(null)}
+            >
+              {isMobile && (
+                <p className="text-[10px] font-heading text-muted-foreground text-center py-1.5 bg-muted/50 border-b border-border/40">
+                  ← Swipe to explore the map →
+                </p>
+              )}
+              <div style={{ minWidth: isMobile ? "700px" : undefined }}>
+              <ComposableMap
+                projection="geoMercator"
+                projectionConfig={{ scale: isMobile ? 200 : 160, center: [30, 15] }}
+                className="w-full"
+                style={{ aspectRatio: isMobile ? "5 / 4" : "2 / 1" }}
               >
-                <ComposableMap
-                  projection="geoMercator"
-                  projectionConfig={{ scale: 160, center: [30, 15] }}
-                  className="w-full"
-                  style={{ aspectRatio: "2 / 1" }}
-                >
                   <MemoizedGeographies />
 
                   {civilizations.map((civ) => {
