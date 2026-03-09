@@ -4,6 +4,7 @@ import { fetchDayInHistory } from "@/services/apiNinjasService";
 import { Calendar, ExternalLink, Baby, Skull } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
+import { SourceBadge } from "@/components/SourceBadge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 
