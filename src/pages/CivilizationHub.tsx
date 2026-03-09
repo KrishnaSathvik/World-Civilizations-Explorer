@@ -172,56 +172,8 @@ export default function CivilizationHub() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-16 md:py-20">
-        <div className="container">
-          <ScrollReveal>
-            <div className="flex items-center gap-3 mb-10">
-              <div className="h-10 w-10 rounded-lg bg-gold/10 flex items-center justify-center">
-                <Clock className="h-5 w-5 text-gold" />
-              </div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Timeline</h2>
-            </div>
-          </ScrollReveal>
-
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-border" />
-
-            <StaggerContainer className="space-y-8" staggerDelay={0.12}>
-              {civ.timeline.map((event, i) => (
-                <motion.div
-                  key={i}
-                  variants={staggerItem}
-                  className={`relative flex items-start gap-6 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
-                >
-                  {/* Content */}
-                  <div className={`flex-1 ${i % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"} pl-14 md:pl-0`}>
-                    <span
-                      className="inline-block px-2.5 py-1 rounded-full text-xs font-mono font-bold mb-2"
-                      style={{
-                        backgroundColor: `hsl(var(--${civ.colorKey}) / 0.1)`,
-                        color: `hsl(var(--${civ.colorKey}))`,
-                      }}
-                    >
-                      {event.year}
-                    </span>
-                    <p className="font-body text-foreground leading-relaxed">{event.event}</p>
-                  </div>
-
-                  {/* Dot */}
-                  <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 w-5 h-5 rounded-full border-2 border-card bg-gold flex items-center justify-center z-10">
-                    <div className="w-2 h-2 rounded-full bg-card" />
-                  </div>
-
-                  {/* Spacer for the other side */}
-                  <div className="hidden md:block flex-1" />
-                </motion.div>
-              ))}
-            </StaggerContainer>
-          </div>
-        </div>
-      </section>
+      {/* Dynamic Timeline */}
+      <DynamicTimeline query={civ.name} colorKey={civ.colorKey} />
 
       {/* Key Figures */}
       <section className="py-16 md:py-20 bg-secondary/30">
