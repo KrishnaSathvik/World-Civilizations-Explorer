@@ -139,14 +139,8 @@ export default function CivilizationHub() {
                       {Math.max(1, Math.ceil(mainData.extract.split(/\s+/).length / 200))} min read
                     </Badge>
                   )}
-                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
-                    <Database className="h-3 w-3" />
-                    Wikipedia
-                  </Badge>
-                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
-                    <Globe className="h-3 w-3" />
-                    Wikimedia Commons
-                  </Badge>
+                  <SourceBadge source="wikipedia" size="sm" />
+                  <SourceBadge source="wikimedia-commons" size="sm" />
                   <Badge variant="secondary" className="font-heading text-[10px] gap-1">
                     {civ.timeline.length} events
                   </Badge>
