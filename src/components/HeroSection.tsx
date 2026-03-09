@@ -64,26 +64,6 @@ export function HeroSection() {
             </button>
           </motion.form>
 
-          {/* Civilization quick-links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="flex flex-wrap justify-center gap-2"
-          >
-            {civilizations.slice(0, 6).map((civ) => (
-              <Link
-                key={civ.id}
-                to={`#${civ.slug}`}
-                className="px-3 py-1.5 rounded-full border border-border/60 bg-card/50 text-xs font-heading font-medium text-muted-foreground hover:text-foreground hover:border-gold/40 hover:bg-gold/5 transition-all"
-              >
-                {civ.name}
-              </Link>
-            ))}
-            <span className="px-3 py-1.5 text-xs font-heading text-muted-foreground">
-              +{civilizations.length - 6} more
-            </span>
-          </motion.div>
         </motion.div>
       </div>
     </section>
