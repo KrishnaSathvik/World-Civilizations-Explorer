@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { SourceBadge, ALL_SOURCES, getSourceLabel, type MuseumSource } from "@/components/SourceBadge";
+import { SourceBadge, MUSEUM_SOURCES, getSourceLabel, type MuseumSource } from "@/components/SourceBadge";
 import { StaggerContainer, staggerItem } from "@/components/ScrollReveal";
 import { searchMetMuseum, type MetArtwork } from "@/services/met-museum";
 import { searchAICCollection, type AICArtwork } from "@/services/art-institute-chicago";
