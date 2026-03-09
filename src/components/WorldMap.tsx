@@ -6,7 +6,7 @@ import {
   Marker,
 } from "react-simple-maps";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Globe, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Globe, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { civilizations } from "@/data/civilizations";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -62,9 +62,7 @@ export function WorldMap() {
               Civilizations Across the Globe
             </h2>
             <p className="font-body text-muted-foreground max-w-xl mx-auto">
-              {isMobile
-                ? "Tap any civilization to explore its history and cultural achievements."
-                : "Tap any marker to explore a civilization's history, key figures, and cultural achievements."}
+              Tap any marker to explore a civilization's history, key figures, and cultural achievements.
             </p>
           </div>
         </ScrollReveal>
@@ -81,12 +79,12 @@ export function WorldMap() {
                 </p>
               )}
               <div style={{ minWidth: isMobile ? "700px" : undefined }}>
-              <ComposableMap
-                projection="geoMercator"
-                projectionConfig={{ scale: isMobile ? 200 : 160, center: [30, 15] }}
-                className="w-full"
-                style={{ aspectRatio: isMobile ? "5 / 4" : "2 / 1" }}
-              >
+                <ComposableMap
+                  projection="geoMercator"
+                  projectionConfig={{ scale: isMobile ? 200 : 160, center: [30, 15] }}
+                  className="w-full"
+                  style={{ aspectRatio: isMobile ? "5 / 4" : "2 / 1" }}
+                >
                   <MemoizedGeographies />
 
                   {civilizations.map((civ) => {
@@ -118,7 +116,13 @@ export function WorldMap() {
                             textAnchor="middle"
                             y={-20}
                             className="font-heading fill-foreground font-bold"
-                            style={{ pointerEvents: "none", fontSize: "11px", paintOrder: "stroke", stroke: "hsl(var(--card))", strokeWidth: "3px" }}
+                            style={{
+                              pointerEvents: "none",
+                              fontSize: "11px",
+                              paintOrder: "stroke",
+                              stroke: "hsl(var(--card))",
+                              strokeWidth: "3px",
+                            }}
                           >
                             {civ.name}
                           </text>
@@ -126,42 +130,42 @@ export function WorldMap() {
                       </Marker>
                     );
                   })}
-              </ComposableMap>
+                </ComposableMap>
               </div>
-                <AnimatePresence>
-                  {selected && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 5 }}
-                      className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-72 p-4 rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div className="flex items-start gap-3">
-                        <div
-                          className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0"
-                          style={{ backgroundColor: `hsl(var(--${selected.colorKey}) / 0.15)` }}
-                        >
-                          <MapPin className="h-5 w-5" style={{ color: `hsl(var(--${selected.colorKey}))` }} />
-                        </div>
-                        <div>
-                          <h3 className="font-display text-sm font-bold text-foreground">{selected.name}</h3>
-                          <p className="text-xs font-heading text-muted-foreground">{selected.dateRange}</p>
-                          <p className="text-xs font-heading text-muted-foreground mt-0.5">{selected.region}</p>
-                          <Link
-                            to={`/civilizations/${selected.slug}`}
-                            className="inline-block mt-2 text-xs font-heading font-medium text-primary hover:underline"
-                          >
-                            Explore →
-                          </Link>
-                        </div>
+
+              <AnimatePresence>
+                {selected && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-72 p-4 rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div
+                        className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: `hsl(var(--${selected.colorKey}) / 0.15)` }}
+                      >
+                        <MapPin className="h-5 w-5" style={{ color: `hsl(var(--${selected.colorKey}))` }} />
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                      <div>
+                        <h3 className="font-display text-sm font-bold text-foreground">{selected.name}</h3>
+                        <p className="text-xs font-heading text-muted-foreground">{selected.dateRange}</p>
+                        <p className="text-xs font-heading text-muted-foreground mt-0.5">{selected.region}</p>
+                        <Link
+                          to={`/civilizations/${selected.slug}`}
+                          className="inline-block mt-2 text-xs font-heading font-medium text-primary hover:underline"
+                        >
+                          Explore →
+                        </Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-            {/* CTA to full map page */}
+
             <div className="mt-6 text-center">
               <Link to="/map">
                 <Button variant="outline" className="font-heading text-sm gap-2">
