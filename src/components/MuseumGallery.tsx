@@ -121,7 +121,7 @@ export function MuseumGallery({ query, title = "Museum Artifacts", limit = 4 }: 
             <div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">{title}</h2>
               <p className="text-xs font-heading text-muted-foreground mt-0.5">
-                From {Object.keys(SOURCE_LABELS).filter((s) => unique.some((a) => a.source === s)).map((s) => SOURCE_LABELS[s]).join(", ")}
+                From {[...new Set(unique.map((a) => a.source))].map((s) => getSourceLabel(s)).join(", ")}
               </p>
             </div>
           </div>
