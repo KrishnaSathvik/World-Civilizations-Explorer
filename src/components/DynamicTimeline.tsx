@@ -3,6 +3,7 @@ import { fetchHistoricalEvents, type HistoricalEvent } from "@/services/apiNinja
 import { Clock, Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
+import { SourceBadge } from "@/components/SourceBadge";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
