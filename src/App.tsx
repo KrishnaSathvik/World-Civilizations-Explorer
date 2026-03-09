@@ -19,6 +19,7 @@ import ContributePage from "./pages/ContributePage";
 import ContactPage from "./pages/ContactPage";
 import NewsletterPage from "./pages/NewsletterPage";
 import MuseumSearchPage from "./pages/MuseumSearchPage";
+import DataSourcesPage from "./pages/DataSourcesPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
