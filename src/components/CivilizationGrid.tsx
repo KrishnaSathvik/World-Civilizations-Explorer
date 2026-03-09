@@ -13,7 +13,6 @@ const regionFilters = ["All", "Asia", "Europe", "Africa", "Americas", "Middle Ea
 const eraFilters = ["All", "Ancient", "Medieval", "Modern"] as const;
 
 export function CivilizationGrid() {
-  const [activeRegion, setActiveRegion] = useState<string>("All");
   const [activeEra, setActiveEra] = useState<string>("All");
 
   const wikiQueries = useQueries({
