@@ -27,13 +27,25 @@ export async function fetchHistoricalEvents(text: string, limit = 10): Promise<H
   return (data as HistoricalEvent[]).slice(0, limit);
 }
 
-export async function fetchOnThisDay(
-  type: "events" | "births" | "deaths" = "events",
-  limit = 6
-): Promise<OnThisDayEvent[]> {
+export async function fetchOnThisDay(limit = 6): Promise<OnThisDayEvent[]> {
   const now = new Date();
   const month = String(now.getMonth() + 1);
   const day = String(now.getDate());
-  const data = await callProxy("onthisday", { month, day, type });
-  return (data as OnThisDayEvent[]).slice(0, limit);
+  // dayinhistory returns a single object with events, births, deaths arrays
+  const data = await callProxy("dayinhistory", { month, day });
+  
+  // Handle the response format from API Ninjas
+  if (Array.isArray(data)) {
+    return data.slice(0, limit);
+  }
+  // If it's the object format with events array
+  if (data?.events && Array.isArray(data.events)) {
+    return data.events.slice(0, limit).map((e: { year: string; event: string }) => ({
+      year: e.year,
+      month,
+      day,
+      event: e.event,
+    }));
+  }
+  return [];
 }

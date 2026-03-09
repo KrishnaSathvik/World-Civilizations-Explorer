@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
     const { endpoint, params } = await req.json();
 
     // Validate endpoint
-    const allowed = ['historicalevents', 'onthisday'];
+    const allowed = ['historicalevents', 'dayinhistory'];
     if (!allowed.includes(endpoint)) {
       return new Response(JSON.stringify({ error: 'Invalid endpoint' }), {
         status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
