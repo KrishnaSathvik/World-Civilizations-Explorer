@@ -60,6 +60,7 @@ export default function CivilizationHub() {
   useAutoEmbed(mainQuery.data);
 
   if (!civ) {
+    return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="container py-20 text-center">
