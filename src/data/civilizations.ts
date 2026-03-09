@@ -120,6 +120,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Asia",
     colorKey: "civ-india",
     wikipediaTitle: "History_of_India",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/India_Gate_in_New_Delhi_03-2016.jpg/640px-India_Gate_in_New_Delhi_03-2016.jpg",
     coords: [28.61, 77.20],
     keyFigures: ["Ashoka", "Chandragupta_Maurya", "Aryabhata", "Kalidasa", "Gautama_Buddha"],
     topics: ["Indus_Valley_Civilisation", "Vedas", "Maurya_Empire", "Gupta_Empire"],
