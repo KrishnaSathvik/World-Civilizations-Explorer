@@ -100,11 +100,12 @@ export function Footer() {
           <p className="font-heading text-xs text-muted-foreground">
             © {new Date().getFullYear()} Cultural Explorer. Built with open data.
           </p>
-          <div className="flex items-center gap-2 flex-wrap">
-            {ALL_SOURCES.map((source) => (
-              <SourceBadge key={source} source={source} size="sm" />
-            ))}
-          </div>
+          <Link
+            to="/sources"
+            className="font-heading text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            View all 12 data sources →
+          </Link>
         </div>
       </div>
     </footer>

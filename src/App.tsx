@@ -48,6 +48,7 @@ const App = () => (
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/newsletter" element={<NewsletterPage />} />
           <Route path="/museums" element={<MuseumSearchPage />} />
+          <Route path="/sources" element={<DataSourcesPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />
