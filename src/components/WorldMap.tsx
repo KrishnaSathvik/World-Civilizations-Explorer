@@ -38,32 +38,6 @@ const MemoizedGeographies = memo(function MemoGeo() {
   );
 });
 
-// On mobile, show a list of clickable civilization cards instead of the tiny map
-function MobileCivList() {
-  return (
-    <div className="grid grid-cols-2 gap-3">
-      {civilizations.map((civ) => (
-        <Link
-          key={civ.id}
-          to={`/civilizations/${civ.slug}`}
-          className="flex items-center gap-2.5 p-3 rounded-xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-sm transition-all"
-        >
-          <div
-            className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ backgroundColor: `hsl(var(--${civ.colorKey}) / 0.15)` }}
-          >
-            <MapPin className="h-4 w-4" style={{ color: `hsl(var(--${civ.colorKey}))` }} />
-          </div>
-          <div className="min-w-0">
-            <h3 className="font-heading text-xs font-bold text-foreground truncate">{civ.name}</h3>
-            <p className="text-[10px] font-heading text-muted-foreground truncate">{civ.dateRange}</p>
-          </div>
-        </Link>
-      ))}
-    </div>
-  );
-}
-
 export function WorldMap() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = civilizations.find((c) => c.id === selectedId);
