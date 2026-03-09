@@ -32,7 +32,7 @@ function normalize(items: any[], source: string, mapper: (a: any) => UnifiedArtw
 export default function MuseumSearchPage() {
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
-  const [activeSources, setActiveSources] = useState<Set<MuseumSource>>(new Set(ALL_SOURCES));
+  const [activeSources, setActiveSources] = useState<Set<MuseumSource>>(new Set(MUSEUM_SOURCES));
 
   const enabled = !!submitted;
 
