@@ -1,16 +1,6 @@
 import { Link } from "react-router-dom";
 
-const sourceLogos = [
-  { name: "Wikipedia", url: "https://en.wikipedia.org" },
-  { name: "Wikidata", url: "https://www.wikidata.org" },
-  { name: "Wikimedia Commons", url: "https://commons.wikimedia.org" },
-  { name: "The Met", url: "https://www.metmuseum.org" },
-  { name: "Art Institute of Chicago", url: "https://www.artic.edu" },
-  { name: "Smithsonian", url: "https://www.si.edu" },
-  { name: "Harvard Art Museums", url: "https://harvardartmuseums.org" },
-  { name: "Rijksmuseum", url: "https://www.rijksmuseum.nl" },
-  { name: "Muffinlabs", url: "https://history.muffinlabs.com" },
-];
+import { SourceBadge, ALL_SOURCES, getSourceLabel, getSourceUrl } from "@/components/SourceBadge";
 
 const navLinks = [
   { label: "Explore", href: "/" },
