@@ -54,6 +54,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Europe",
     colorKey: "civ-greece",
     wikipediaTitle: "Ancient_Greece",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/The_Parthenon_in_Athens.jpg/640px-The_Parthenon_in_Athens.jpg",
     coords: [37.97, 23.72],
     keyFigures: ["Socrates", "Plato", "Aristotle", "Alexander_the_Great", "Pericles"],
     topics: ["Parthenon", "Ancient_Greek_philosophy", "Greek_mythology", "Olympic_Games"],
