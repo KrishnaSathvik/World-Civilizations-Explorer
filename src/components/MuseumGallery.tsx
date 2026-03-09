@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ExternalLink, Landmark } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
+import { SourceBadge, getSourceLabel } from "@/components/SourceBadge";
 import { searchMetMuseum, MetArtwork } from "@/services/met-museum";
 import { searchAICCollection, AICArtwork } from "@/services/art-institute-chicago";
 import { searchMuseums, MuseumArtwork } from "@/services/museum-apis";
@@ -26,21 +26,6 @@ interface UnifiedArtwork {
   culture?: string;
 }
 
-const SOURCE_LABELS: Record<string, string> = {
-  met: "The Met",
-  aic: "Art Institute of Chicago",
-  smithsonian: "Smithsonian",
-  harvard: "Harvard Art Museums",
-  rijksmuseum: "Rijksmuseum",
-};
-
-const SOURCE_COLORS: Record<string, string> = {
-  met: "bg-red-500/10 text-red-700 dark:text-red-400",
-  aic: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
-  smithsonian: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  harvard: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-  rijksmuseum: "bg-orange-500/10 text-orange-700 dark:text-orange-400",
-};
 
 function normalizeMetArtwork(a: MetArtwork): UnifiedArtwork {
   return {
@@ -136,7 +121,7 @@ export function MuseumGallery({ query, title = "Museum Artifacts", limit = 4 }: 
             <div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">{title}</h2>
               <p className="text-xs font-heading text-muted-foreground mt-0.5">
-                From {Object.keys(SOURCE_LABELS).filter((s) => unique.some((a) => a.source === s)).map((s) => SOURCE_LABELS[s]).join(", ")}
+                From {[...new Set(unique.map((a) => a.source))].map((s) => getSourceLabel(s)).join(", ")}
               </p>
             </div>
           </div>
@@ -184,12 +169,7 @@ export function MuseumGallery({ query, title = "Museum Artifacts", limit = 4 }: 
                     {artwork.date && (
                       <span className="text-[10px] font-mono text-muted-foreground">{artwork.date}</span>
                     )}
-                    <Badge
-                      variant="secondary"
-                      className={`text-[9px] px-1.5 py-0 font-heading ${SOURCE_COLORS[artwork.source] || ""}`}
-                    >
-                      {SOURCE_LABELS[artwork.source] || artwork.source}
-                    </Badge>
+                    <SourceBadge source={artwork.source} />
                   </div>
                 </div>
               </motion.a>
