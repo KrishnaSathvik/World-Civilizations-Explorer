@@ -3,7 +3,7 @@ import { searchLOCPhotos, searchLOCMaps, type LOCItem } from "@/services/loc";
 import { MapPin, Camera, ExternalLink, FileText } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
-import { Badge } from "@/components/ui/badge";
+import { SourceBadge } from "@/components/SourceBadge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 
@@ -40,9 +40,7 @@ function LOCItemCard({ item }: { item: LOCItem }) {
           <p className="text-[10px] font-mono text-muted-foreground mt-1">{item.date}</p>
         )}
         <div className="flex items-center gap-1 mt-2">
-          <Badge variant="secondary" className="text-[9px] font-heading gap-0.5">
-            <FileText className="h-2.5 w-2.5" /> Library of Congress
-          </Badge>
+          <SourceBadge source="loc" />
           <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
         </div>
       </div>
@@ -83,9 +81,10 @@ export function LOCGallery({ query, title }: LOCGalleryProps) {
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
                 {title || "Primary Sources"}
               </h2>
-              <p className="text-xs font-heading text-muted-foreground">
-                Historical photographs, maps & documents from the Library of Congress
-              </p>
+              <div className="flex items-center gap-1.5 mt-1">
+                <SourceBadge source="loc" size="sm" />
+                <span className="text-xs font-heading text-muted-foreground">Historical photographs, maps & documents</span>
+              </div>
             </div>
           </div>
         </ScrollReveal>

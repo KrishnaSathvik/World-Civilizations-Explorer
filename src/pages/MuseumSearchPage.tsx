@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { SourceBadge, ALL_SOURCES, getSourceLabel, type MuseumSource } from "@/components/SourceBadge";
+import { SourceBadge, MUSEUM_SOURCES, getSourceLabel, type MuseumSource } from "@/components/SourceBadge";
 import { StaggerContainer, staggerItem } from "@/components/ScrollReveal";
 import { searchMetMuseum, type MetArtwork } from "@/services/met-museum";
 import { searchAICCollection, type AICArtwork } from "@/services/art-institute-chicago";
@@ -32,7 +32,7 @@ function normalize(items: any[], source: string, mapper: (a: any) => UnifiedArtw
 export default function MuseumSearchPage() {
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
-  const [activeSources, setActiveSources] = useState<Set<MuseumSource>>(new Set(ALL_SOURCES));
+  const [activeSources, setActiveSources] = useState<Set<MuseumSource>>(new Set(MUSEUM_SOURCES));
 
   const enabled = !!submitted;
 
@@ -139,7 +139,7 @@ export default function MuseumSearchPage() {
             <div className="flex flex-wrap items-center gap-2">
               <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-heading text-muted-foreground mr-1">Sources:</span>
-              {ALL_SOURCES.map((s) => (
+              {MUSEUM_SOURCES.map((s) => (
                 <button
                   key={s}
                   onClick={() => toggleSource(s)}

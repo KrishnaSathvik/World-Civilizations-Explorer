@@ -3,7 +3,7 @@ import { searchUnsplashPhotos, type UnsplashPhoto } from "@/services/unsplash";
 import { Camera, ExternalLink } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
-import { Badge } from "@/components/ui/badge";
+import { SourceBadge } from "@/components/SourceBadge";
 import { motion } from "framer-motion";
 
 interface SitePhotosProps {
@@ -34,9 +34,10 @@ export function SitePhotos({ query, title, limit = 6 }: SitePhotosProps) {
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
                 {title || "Modern Photography"}
               </h2>
-              <p className="text-xs font-heading text-muted-foreground">
-                Contemporary photos via Unsplash
-              </p>
+              <div className="flex items-center gap-1.5 mt-1">
+                <SourceBadge source="unsplash" size="sm" />
+                <span className="text-xs font-heading text-muted-foreground">Contemporary photos</span>
+              </div>
             </div>
           </div>
         </ScrollReveal>
@@ -83,9 +84,7 @@ export function SitePhotos({ query, title, limit = 6 }: SitePhotosProps) {
                     >
                       📷 {photo.user.name}
                     </a>
-                    <Badge variant="outline" className="text-[8px] font-heading gap-0.5 bg-card/80">
-                      Unsplash
-                    </Badge>
+                    <SourceBadge source="unsplash" className="bg-card/80" />
                   </div>
                 </div>
               </motion.a>

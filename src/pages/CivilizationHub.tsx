@@ -6,6 +6,7 @@ import { DynamicTimeline } from "@/components/DynamicTimeline";
 import { LOCGallery } from "@/components/LOCGallery";
 import { SitePhotos } from "@/components/SitePhotos";
 import { Badge } from "@/components/ui/badge";
+import { SourceBadge } from "@/components/SourceBadge";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -138,14 +139,8 @@ export default function CivilizationHub() {
                       {Math.max(1, Math.ceil(mainData.extract.split(/\s+/).length / 200))} min read
                     </Badge>
                   )}
-                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
-                    <Database className="h-3 w-3" />
-                    Wikipedia
-                  </Badge>
-                  <Badge variant="secondary" className="font-heading text-[10px] gap-1">
-                    <Globe className="h-3 w-3" />
-                    Wikimedia Commons
-                  </Badge>
+                  <SourceBadge source="wikipedia" size="sm" />
+                  <SourceBadge source="wikimedia-commons" size="sm" />
                   <Badge variant="secondary" className="font-heading text-[10px] gap-1">
                     {civ.timeline.length} events
                   </Badge>
@@ -293,7 +288,12 @@ export default function CivilizationHub() {
               <div className="h-10 w-10 rounded-lg bg-gold/10 flex items-center justify-center">
                 <Image className="h-5 w-5 text-gold" />
               </div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Gallery</h2>
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Gallery</h2>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <SourceBadge source="wikimedia-commons" size="sm" />
+                </div>
+              </div>
             </div>
           </ScrollReveal>
 

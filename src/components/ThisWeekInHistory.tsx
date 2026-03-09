@@ -4,6 +4,7 @@ import { fetchDayInHistory } from "@/services/apiNinjasService";
 import { Calendar, ExternalLink, Baby, Skull } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
+import { SourceBadge } from "@/components/SourceBadge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 
@@ -60,9 +61,13 @@ export function ThisWeekInHistory() {
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
                 This Day in History
               </h2>
-              {wikiQuery.data && (
-                <p className="text-sm font-heading text-muted-foreground">{wikiQuery.data.date}</p>
-              )}
+              <div className="flex items-center gap-1.5 mt-1">
+                <SourceBadge source="muffinlabs" size="sm" />
+                <SourceBadge source="api-ninjas" size="sm" />
+                {wikiQuery.data && (
+                  <span className="text-xs font-heading text-muted-foreground ml-1">{wikiQuery.data.date}</span>
+                )}
+              </div>
             </div>
           </div>
         </ScrollReveal>

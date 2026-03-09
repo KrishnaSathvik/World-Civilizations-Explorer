@@ -1,16 +1,6 @@
 import { Link } from "react-router-dom";
 
-const sourceLogos = [
-  { name: "Wikipedia", url: "https://en.wikipedia.org" },
-  { name: "Wikidata", url: "https://www.wikidata.org" },
-  { name: "Wikimedia Commons", url: "https://commons.wikimedia.org" },
-  { name: "The Met", url: "https://www.metmuseum.org" },
-  { name: "Art Institute of Chicago", url: "https://www.artic.edu" },
-  { name: "Smithsonian", url: "https://www.si.edu" },
-  { name: "Harvard Art Museums", url: "https://harvardartmuseums.org" },
-  { name: "Rijksmuseum", url: "https://www.rijksmuseum.nl" },
-  { name: "Muffinlabs", url: "https://history.muffinlabs.com" },
-];
+import { SourceBadge, ALL_SOURCES, getSourceLabel, getSourceUrl } from "@/components/SourceBadge";
 
 const navLinks = [
   { label: "Explore", href: "/" },
@@ -87,15 +77,15 @@ export function Footer() {
           <div>
             <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Data Sources</h4>
             <ul className="space-y-2">
-              {sourceLogos.map((src) => (
-                <li key={src.name}>
+              {ALL_SOURCES.map((source) => (
+                <li key={source}>
                   <a
-                    href={src.url}
+                    href={getSourceUrl(source)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="inline-flex items-center gap-2 font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {src.name}
+                    {getSourceLabel(source)}
                   </a>
                 </li>
               ))}
@@ -108,14 +98,9 @@ export function Footer() {
           <p className="font-heading text-xs text-muted-foreground">
             © {new Date().getFullYear()} Cultural Explorer. Built with open data.
           </p>
-          <div className="flex items-center gap-3">
-            {sourceLogos.map((src) => (
-              <span
-                key={src.name}
-                className="inline-flex items-center px-2 py-0.5 rounded-full bg-muted text-[10px] font-heading text-muted-foreground"
-              >
-                {src.name}
-              </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            {ALL_SOURCES.map((source) => (
+              <SourceBadge key={source} source={source} size="sm" />
             ))}
           </div>
         </div>
