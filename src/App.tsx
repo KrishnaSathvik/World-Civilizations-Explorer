@@ -23,6 +23,7 @@ import DataSourcesPage from "./pages/DataSourcesPage";
 import HistoryEventPage from "./pages/HistoryEventPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
