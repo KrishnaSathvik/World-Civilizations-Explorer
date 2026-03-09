@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, Clock, FileText, Database, Globe } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe } from "lucide-react";
+import { DynamicTimeline } from "@/components/DynamicTimeline";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navbar } from "@/components/Navbar";
