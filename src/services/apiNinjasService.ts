@@ -35,10 +35,12 @@ export interface DayInHistoryResponse {
 }
 
 export async function fetchDayInHistory(): Promise<DayInHistoryResponse> {
+  // Call without month/day params - free tier returns today's date automatically
+  const data = await callProxy("dayinhistory", {});
+  
   const now = new Date();
   const month = String(now.getMonth() + 1);
   const day = String(now.getDate());
-  const data = await callProxy("dayinhistory", { month, day });
   
   const parseItems = (items: { year: string; event: string }[] | undefined): OnThisDayEvent[] => {
     if (!items || !Array.isArray(items)) return [];
