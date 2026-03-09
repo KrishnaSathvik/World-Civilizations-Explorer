@@ -1,6 +1,6 @@
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchTodayInHistory } from "@/services/api";
-import { fetchOnThisDay } from "@/services/apiNinjasService";
+import { fetchDayInHistory } from "@/services/apiNinjasService";
 import { Calendar, ExternalLink, Baby, Skull } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 
 export function ThisWeekInHistory() {
-  // Existing Wikipedia-based events
+  // Wikipedia-based events (fallback/primary for events)
   const wikiQuery = useQuery({
     queryKey: ["todayInHistory"],
     queryFn: fetchTodayInHistory,
@@ -16,22 +16,12 @@ export function ThisWeekInHistory() {
     retry: 1,
   });
 
-  // API Ninjas births & deaths
-  const [birthsQuery, deathsQuery] = useQueries({
-    queries: [
-      {
-        queryKey: ["onthisday", "births"],
-        queryFn: () => fetchOnThisDay("births", 6),
-        staleTime: 1000 * 60 * 60,
-        retry: 1,
-      },
-      {
-        queryKey: ["onthisday", "deaths"],
-        queryFn: () => fetchOnThisDay("deaths", 6),
-        staleTime: 1000 * 60 * 60,
-        retry: 1,
-      },
-    ],
+  // API Ninjas day in history (for births & deaths)
+  const ninjasQuery = useQuery({
+    queryKey: ["dayinhistory"],
+    queryFn: fetchDayInHistory,
+    staleTime: 1000 * 60 * 60,
+    retry: 1,
   });
 
   const isLoading = wikiQuery.isLoading;
@@ -116,36 +106,42 @@ export function ThisWeekInHistory() {
 
           <TabsContent value="births">
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
-              {birthsQuery.isLoading
+              {ninjasQuery.isLoading
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <div key={i} className="p-4 rounded-lg border border-border/60 bg-card">
                       <Skeleton className="h-4 w-16 mb-2" />
                       <Skeleton className="h-4 w-full" />
                     </div>
                   ))
-                : birthsQuery.data?.map((e, i) => (
+                : ninjasQuery.data?.births.map((e, i) => (
                     <EventCard key={i} year={e.year} text={e.event} />
                   ))}
-              {birthsQuery.error && (
-                <p className="text-sm font-body text-muted-foreground">Unable to load births.</p>
+              {ninjasQuery.error && (
+                <p className="text-sm font-body text-muted-foreground col-span-full">Unable to load births.</p>
+              )}
+              {!ninjasQuery.isLoading && ninjasQuery.data?.births.length === 0 && (
+                <p className="text-sm font-body text-muted-foreground col-span-full">No birth data available.</p>
               )}
             </StaggerContainer>
           </TabsContent>
 
           <TabsContent value="deaths">
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
-              {deathsQuery.isLoading
+              {ninjasQuery.isLoading
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <div key={i} className="p-4 rounded-lg border border-border/60 bg-card">
                       <Skeleton className="h-4 w-16 mb-2" />
                       <Skeleton className="h-4 w-full" />
                     </div>
                   ))
-                : deathsQuery.data?.map((e, i) => (
+                : ninjasQuery.data?.deaths.map((e, i) => (
                     <EventCard key={i} year={e.year} text={e.event} />
                   ))}
-              {deathsQuery.error && (
-                <p className="text-sm font-body text-muted-foreground">Unable to load deaths.</p>
+              {ninjasQuery.error && (
+                <p className="text-sm font-body text-muted-foreground col-span-full">Unable to load deaths.</p>
+              )}
+              {!ninjasQuery.isLoading && ninjasQuery.data?.deaths.length === 0 && (
+                <p className="text-sm font-body text-muted-foreground col-span-full">No death data available.</p>
               )}
             </StaggerContainer>
           </TabsContent>

@@ -27,25 +27,33 @@ export async function fetchHistoricalEvents(text: string, limit = 10): Promise<H
   return (data as HistoricalEvent[]).slice(0, limit);
 }
 
-export async function fetchOnThisDay(limit = 6): Promise<OnThisDayEvent[]> {
+export interface DayInHistoryResponse {
+  date: string;
+  events: OnThisDayEvent[];
+  births: OnThisDayEvent[];
+  deaths: OnThisDayEvent[];
+}
+
+export async function fetchDayInHistory(): Promise<DayInHistoryResponse> {
   const now = new Date();
   const month = String(now.getMonth() + 1);
   const day = String(now.getDate());
-  // dayinhistory returns a single object with events, births, deaths arrays
   const data = await callProxy("dayinhistory", { month, day });
   
-  // Handle the response format from API Ninjas
-  if (Array.isArray(data)) {
-    return data.slice(0, limit);
-  }
-  // If it's the object format with events array
-  if (data?.events && Array.isArray(data.events)) {
-    return data.events.slice(0, limit).map((e: { year: string; event: string }) => ({
+  const parseItems = (items: { year: string; event: string }[] | undefined): OnThisDayEvent[] => {
+    if (!items || !Array.isArray(items)) return [];
+    return items.slice(0, 6).map((e) => ({
       year: e.year,
       month,
       day,
       event: e.event,
     }));
-  }
-  return [];
+  };
+
+  return {
+    date: `${month}/${day}`,
+    events: parseItems(data?.events),
+    births: parseItems(data?.births),
+    deaths: parseItems(data?.deaths),
+  };
 }
