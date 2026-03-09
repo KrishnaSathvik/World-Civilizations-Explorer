@@ -208,7 +208,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Africa",
     colorKey: "civ-african",
     wikipediaTitle: "African_empires",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Great-Zimbabwe.jpg/640px-Great-Zimbabwe.jpg",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Conical_Tower_-_Great_Enclosure_III_%2833736918448%29.jpg/330px-Conical_Tower_-_Great_Enclosure_III_%2833736918448%29.jpg",
     coords: [12.65, -8.00],
     keyFigures: ["Mansa_Musa", "Sundiata_Keita", "Shaka_Zulu", "Queen_Nzinga"],
     topics: ["Mali_Empire", "Great_Zimbabwe", "Kingdom_of_Aksum", "Timbuktu"],
