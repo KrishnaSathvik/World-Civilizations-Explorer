@@ -220,8 +220,6 @@ export default function CivilizationHub() {
         </div>
       </section>
 
-      {/* Dynamic Timeline (API-powered) */}
-      <DynamicTimeline query={civ.name} colorKey={civ.colorKey} />
 
       {/* Key Figures */}
       <section className="py-16 md:py-20 bg-secondary/30">
