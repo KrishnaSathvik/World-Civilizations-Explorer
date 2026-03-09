@@ -76,6 +76,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Europe",
     colorKey: "civ-rome",
     wikipediaTitle: "Roman_Empire",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Colosseo_2020.jpg/640px-Colosseo_2020.jpg",
     coords: [41.90, 12.49],
     keyFigures: ["Julius_Caesar", "Augustus", "Marcus_Aurelius", "Nero", "Constantine_the_Great"],
     topics: ["Colosseum", "Roman_roads", "Roman_law", "Roman_aqueduct"],
