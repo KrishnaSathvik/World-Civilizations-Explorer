@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchTodayInHistory } from "@/services/api";
-import { Calendar, ExternalLink, Baby, Skull } from "lucide-react";
+import { Calendar, Baby, Skull } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
-import { SourceBadge } from "@/components/SourceBadge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export function ThisWeekInHistory() {
   const { data, isLoading, error } = useQuery({
@@ -15,27 +15,29 @@ export function ThisWeekInHistory() {
     retry: 1,
   });
 
-  const EventCard = ({ year, text, link }: { year: string; text: string; link?: string }) => (
-    <motion.div
-      variants={staggerItem}
-      className="p-4 rounded-lg border border-border/60 bg-card hover:border-primary/30 hover:shadow-sm transition-all"
-    >
-      <span className="inline-block px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-mono font-semibold mb-2">
-        {year}
-      </span>
-      <p className="text-sm font-body text-foreground leading-relaxed line-clamp-3">{text}</p>
-      {link && (
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 mt-2 text-xs font-heading text-muted-foreground hover:text-primary transition-colors"
+  const EventCard = ({ year, text, type, wikiTitle }: { year: string; text: string; type: string; wikiTitle?: string }) => {
+    const params = new URLSearchParams({ year, text, type });
+    if (wikiTitle) params.set("wiki", wikiTitle);
+
+    return (
+      <Link to={`/history-event?${params.toString()}`}>
+        <motion.div
+          variants={staggerItem}
+          className="p-4 rounded-lg border border-border/60 bg-card hover:border-primary/30 hover:shadow-md transition-all cursor-pointer group"
         >
-          Learn more <ExternalLink className="h-3 w-3" />
-        </a>
-      )}
-    </motion.div>
-  );
+          <span className="inline-block px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-mono font-semibold mb-2">
+            {year}
+          </span>
+          <p className="text-sm font-body text-foreground leading-relaxed line-clamp-3 group-hover:text-primary transition-colors">
+            {text}
+          </p>
+          <span className="inline-block mt-2 text-xs font-heading text-muted-foreground group-hover:text-primary transition-colors">
+            View details →
+          </span>
+        </motion.div>
+      </Link>
+    );
+  };
 
   const SkeletonCards = () => (
     <>
@@ -50,7 +52,7 @@ export function ThisWeekInHistory() {
   );
 
   return (
-    <section className="py-16 md:py-24 bg-secondary/30">
+    <section id="history" className="py-16 md:py-24 bg-secondary/30">
       <div className="container">
         <ScrollReveal>
           <div className="flex items-center gap-3 mb-8">
@@ -61,12 +63,9 @@ export function ThisWeekInHistory() {
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
                 This Day in History
               </h2>
-              <div className="flex items-center gap-1.5 mt-1">
-                <SourceBadge source="muffinlabs" size="sm" />
-                {data && (
-                  <span className="text-xs font-heading text-muted-foreground ml-1">{data.date}</span>
-                )}
-              </div>
+              {data && (
+                <span className="text-xs font-heading text-muted-foreground mt-1">{data.date}</span>
+              )}
             </div>
           </div>
         </ScrollReveal>
@@ -88,7 +87,7 @@ export function ThisWeekInHistory() {
             {error && <p className="text-sm font-body text-muted-foreground">Unable to load events right now.</p>}
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
               {isLoading ? <SkeletonCards /> : data?.events.map((event, i) => (
-                <EventCard key={i} year={event.year} text={event.text} link={event.links[0]?.link} />
+                <EventCard key={i} year={event.year} text={event.text} type="event" wikiTitle={event.links[0]?.title} />
               ))}
             </StaggerContainer>
           </TabsContent>
@@ -96,7 +95,7 @@ export function ThisWeekInHistory() {
           <TabsContent value="births">
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
               {isLoading ? <SkeletonCards /> : data?.births.map((e, i) => (
-                <EventCard key={i} year={e.year} text={e.text} link={e.links[0]?.link} />
+                <EventCard key={i} year={e.year} text={e.text} type="birth" wikiTitle={e.links[0]?.title} />
               ))}
             </StaggerContainer>
             {!isLoading && data?.births.length === 0 && (
@@ -107,7 +106,7 @@ export function ThisWeekInHistory() {
           <TabsContent value="deaths">
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" staggerDelay={0.08}>
               {isLoading ? <SkeletonCards /> : data?.deaths.map((e, i) => (
-                <EventCard key={i} year={e.year} text={e.text} link={e.links[0]?.link} />
+                <EventCard key={i} year={e.year} text={e.text} type="death" wikiTitle={e.links[0]?.title} />
               ))}
             </StaggerContainer>
             {!isLoading && data?.deaths.length === 0 && (

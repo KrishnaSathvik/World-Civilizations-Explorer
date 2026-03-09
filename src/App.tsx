@@ -20,6 +20,7 @@ import ContactPage from "./pages/ContactPage";
 import NewsletterPage from "./pages/NewsletterPage";
 import MuseumSearchPage from "./pages/MuseumSearchPage";
 import DataSourcesPage from "./pages/DataSourcesPage";
+import HistoryEventPage from "./pages/HistoryEventPage";
 import NotFound from "./pages/NotFound";
 import { ChatWidget } from "@/components/ChatWidget";
 
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/newsletter" element={<NewsletterPage />} />
           <Route path="/museums" element={<MuseumSearchPage />} />
           <Route path="/sources" element={<DataSourcesPage />} />
+          <Route path="/history-event" element={<HistoryEventPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />
