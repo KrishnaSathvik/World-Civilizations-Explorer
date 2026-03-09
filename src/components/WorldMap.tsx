@@ -38,8 +38,14 @@ const MemoizedGeographies = memo(function MemoGeo() {
 });
 
 export function WorldMap() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const hovered = civilizations.find((c) => c.id === hoveredId);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selected = civilizations.find((c) => c.id === selectedId);
+
+  const handleMarkerClick = (civId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedId((prev) => (prev === civId ? null : civId));
+  };
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-background via-primary/[0.02] to-background">
@@ -54,14 +60,17 @@ export function WorldMap() {
               Civilizations Across the Globe
             </h2>
             <p className="font-body text-muted-foreground max-w-xl mx-auto">
-              Click any marker to explore a civilization's history, key figures, and cultural achievements.
+              Tap any marker to explore a civilization's history, key figures, and cultural achievements.
             </p>
           </div>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
           <div className="relative max-w-5xl mx-auto">
-            <div className="relative rounded-2xl border border-border/60 bg-card overflow-hidden shadow-lg">
+            <div
+              className="relative rounded-2xl border border-border/60 bg-card overflow-hidden shadow-lg"
+              onClick={() => setSelectedId(null)}
+            >
               <ComposableMap
                 projection="geoMercator"
                 projectionConfig={{ scale: 130, center: [20, 20] }}
@@ -71,69 +80,71 @@ export function WorldMap() {
                 <MemoizedGeographies />
 
                 {civilizations.map((civ) => {
-                  const isHovered = hoveredId === civ.id;
+                  const isActive = selectedId === civ.id;
                   return (
                     <Marker
                       key={civ.id}
                       coordinates={[civ.coords[1], civ.coords[0]]}
-                      onMouseEnter={() => setHoveredId(civ.id)}
-                      onMouseLeave={() => setHoveredId(null)}
                       style={{ cursor: "pointer" }}
                     >
-                      <Link to={`/civilizations/${civ.slug}`}>
+                      <g onClick={(e) => handleMarkerClick(civ.id, e)}>
+                        {/* Larger invisible hit area for mobile tap */}
+                        <circle r={16} fill="transparent" />
+                        {/* Pulse ring */}
                         <circle
-                          r={isHovered ? 10 : 6}
+                          r={isActive ? 12 : 8}
                           fill="none"
                           stroke={`hsl(var(--${civ.colorKey}))`}
-                          strokeWidth={1}
-                          opacity={isHovered ? 0.6 : 0.3}
+                          strokeWidth={1.5}
+                          opacity={isActive ? 0.7 : 0.4}
                           className="transition-all duration-300"
                         />
+                        {/* Main dot */}
                         <circle
-                          r={isHovered ? 5 : 3.5}
+                          r={isActive ? 6 : 5}
                           fill={`hsl(var(--${civ.colorKey}))`}
                           stroke="hsl(var(--background))"
-                          strokeWidth={1}
+                          strokeWidth={1.5}
                           className="transition-all duration-300"
                         />
-                        {isHovered && (
-                          <text
-                            textAnchor="middle"
-                            y={-14}
-                            className="font-heading text-[10px] fill-foreground font-medium"
-                            style={{ pointerEvents: "none" }}
-                          >
-                            {civ.name}
-                          </text>
-                        )}
-                      </Link>
+                        {/* Always-visible label */}
+                        <text
+                          textAnchor="middle"
+                          y={-16}
+                          className="font-heading fill-foreground font-semibold"
+                          style={{ pointerEvents: "none", fontSize: "8px" }}
+                        >
+                          {civ.name}
+                        </text>
+                      </g>
                     </Marker>
                   );
                 })}
               </ComposableMap>
 
-              {/* Hover tooltip */}
+              {/* Selected tooltip */}
               <AnimatePresence>
-                {hovered && (
+                {selected && (
                   <motion.div
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
                     className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-72 p-4 rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <div className="flex items-start gap-3">
                       <div
                         className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0"
-                        style={{ backgroundColor: `hsl(var(--${hovered.colorKey}) / 0.15)` }}
+                        style={{ backgroundColor: `hsl(var(--${selected.colorKey}) / 0.15)` }}
                       >
-                        <MapPin className="h-5 w-5" style={{ color: `hsl(var(--${hovered.colorKey}))` }} />
+                        <MapPin className="h-5 w-5" style={{ color: `hsl(var(--${selected.colorKey}))` }} />
                       </div>
                       <div>
-                        <h3 className="font-display text-sm font-bold text-foreground">{hovered.name}</h3>
-                        <p className="text-xs font-heading text-muted-foreground">{hovered.dateRange}</p>
-                        <p className="text-xs font-heading text-muted-foreground mt-0.5">{hovered.region}</p>
+                        <h3 className="font-display text-sm font-bold text-foreground">{selected.name}</h3>
+                        <p className="text-xs font-heading text-muted-foreground">{selected.dateRange}</p>
+                        <p className="text-xs font-heading text-muted-foreground mt-0.5">{selected.region}</p>
                         <Link
-                          to={`/civilizations/${hovered.slug}`}
+                          to={`/civilizations/${selected.slug}`}
                           className="inline-block mt-2 text-xs font-heading font-medium text-primary hover:underline"
                         >
                           Explore →
