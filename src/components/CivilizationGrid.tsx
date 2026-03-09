@@ -24,7 +24,6 @@ export function CivilizationGrid() {
   });
 
   const filtered = civilizations.filter((civ) => {
-    if (activeRegion !== "All" && civ.regionGroup !== activeRegion) return false;
     if (activeEra !== "All" && civ.era !== activeEra) return false;
     return true;
   });
