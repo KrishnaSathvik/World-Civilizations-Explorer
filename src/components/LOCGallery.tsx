@@ -40,9 +40,7 @@ function LOCItemCard({ item }: { item: LOCItem }) {
           <p className="text-[10px] font-mono text-muted-foreground mt-1">{item.date}</p>
         )}
         <div className="flex items-center gap-1 mt-2">
-          <Badge variant="secondary" className="text-[9px] font-heading gap-0.5">
-            <FileText className="h-2.5 w-2.5" /> Library of Congress
-          </Badge>
+          <SourceBadge source="loc" />
           <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-auto" />
         </div>
       </div>
