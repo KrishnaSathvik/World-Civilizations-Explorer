@@ -339,6 +339,12 @@ export default function CivilizationHub() {
       {/* Museum Artifacts */}
       <MuseumGallery query={`${civ.name} art history`} title={`${civ.name} — Museum Artifacts`} limit={4} />
 
+      {/* Primary Sources from Library of Congress */}
+      <LOCGallery query={civ.name} title={`${civ.name} — Primary Sources`} />
+
+      {/* Modern Site Photography from Unsplash */}
+      <SitePhotos query={`${civ.name} historical site`} title={`${civ.name} — Modern Photography`} limit={6} />
+
       <Footer />
     </div>
   );
