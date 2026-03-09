@@ -98,14 +98,9 @@ export function Footer() {
           <p className="font-heading text-xs text-muted-foreground">
             © {new Date().getFullYear()} Cultural Explorer. Built with open data.
           </p>
-          <div className="flex items-center gap-3">
-            {sourceLogos.map((src) => (
-              <span
-                key={src.name}
-                className="inline-flex items-center px-2 py-0.5 rounded-full bg-muted text-[10px] font-heading text-muted-foreground"
-              >
-                {src.name}
-              </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            {ALL_SOURCES.map((source) => (
+              <SourceBadge key={source} source={source} size="sm" />
             ))}
           </div>
         </div>

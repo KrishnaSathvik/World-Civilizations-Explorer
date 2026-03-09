@@ -288,7 +288,12 @@ export default function CivilizationHub() {
               <div className="h-10 w-10 rounded-lg bg-gold/10 flex items-center justify-center">
                 <Image className="h-5 w-5 text-gold" />
               </div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Gallery</h2>
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Gallery</h2>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <SourceBadge source="wikimedia-commons" size="sm" />
+                </div>
+              </div>
             </div>
           </ScrollReveal>
 

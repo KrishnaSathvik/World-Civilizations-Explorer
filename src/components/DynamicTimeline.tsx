@@ -31,7 +31,12 @@ export function DynamicTimeline({ query, colorKey }: DynamicTimelineProps) {
             <div className="h-10 w-10 rounded-lg bg-accent/40 flex items-center justify-center">
               <Clock className="h-5 w-5 text-accent-foreground" />
             </div>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Timeline</h2>
+            <div>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Timeline</h2>
+              <div className="flex items-center gap-1.5 mt-1">
+                <SourceBadge source="api-ninjas" size="sm" />
+              </div>
+            </div>
           </div>
           <div className="relative max-w-md mb-8">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

@@ -84,9 +84,7 @@ export function SitePhotos({ query, title, limit = 6 }: SitePhotosProps) {
                     >
                       📷 {photo.user.name}
                     </a>
-                    <Badge variant="outline" className="text-[8px] font-heading gap-0.5 bg-card/80">
-                      Unsplash
-                    </Badge>
+                    <SourceBadge source="unsplash" className="bg-card/80" />
                   </div>
                 </div>
               </motion.a>
