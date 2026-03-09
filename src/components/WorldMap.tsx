@@ -6,7 +6,7 @@ import {
   Marker,
 } from "react-simple-maps";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Globe, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Globe, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { civilizations } from "@/data/civilizations";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -38,32 +38,6 @@ const MemoizedGeographies = memo(function MemoGeo() {
   );
 });
 
-// On mobile, show a list of clickable civilization cards instead of the tiny map
-function MobileCivList() {
-  return (
-    <div className="grid grid-cols-2 gap-3">
-      {civilizations.map((civ) => (
-        <Link
-          key={civ.id}
-          to={`/civilizations/${civ.slug}`}
-          className="flex items-center gap-2.5 p-3 rounded-xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-sm transition-all"
-        >
-          <div
-            className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ backgroundColor: `hsl(var(--${civ.colorKey}) / 0.15)` }}
-          >
-            <MapPin className="h-4 w-4" style={{ color: `hsl(var(--${civ.colorKey}))` }} />
-          </div>
-          <div className="min-w-0">
-            <h3 className="font-heading text-xs font-bold text-foreground truncate">{civ.name}</h3>
-            <p className="text-[10px] font-heading text-muted-foreground truncate">{civ.dateRange}</p>
-          </div>
-        </Link>
-      ))}
-    </div>
-  );
-}
-
 export function WorldMap() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = civilizations.find((c) => c.id === selectedId);
@@ -88,29 +62,28 @@ export function WorldMap() {
               Civilizations Across the Globe
             </h2>
             <p className="font-body text-muted-foreground max-w-xl mx-auto">
-              {isMobile
-                ? "Tap any civilization to explore its history and cultural achievements."
-                : "Tap any marker to explore a civilization's history, key figures, and cultural achievements."}
+              Tap any marker to explore a civilization's history, key figures, and cultural achievements.
             </p>
           </div>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
           <div className="relative max-w-5xl mx-auto">
-            {isMobile ? (
-              /* Mobile: show a grid of civilization cards instead of a tiny map */
-              <MobileCivList />
-            ) : (
-              /* Desktop: full interactive map */
-              <div
-                className="relative rounded-2xl border border-border/60 bg-card overflow-hidden shadow-lg"
-                onClick={() => setSelectedId(null)}
-              >
+            <div
+              className="relative rounded-2xl border border-border/60 bg-card overflow-x-auto overflow-y-hidden shadow-lg"
+              onClick={() => setSelectedId(null)}
+            >
+              {isMobile && (
+                <p className="text-[10px] font-heading text-muted-foreground text-center py-1.5 bg-muted/50 border-b border-border/40">
+                  ← Swipe to explore the map →
+                </p>
+              )}
+              <div style={{ minWidth: isMobile ? "700px" : undefined }}>
                 <ComposableMap
                   projection="geoMercator"
-                  projectionConfig={{ scale: 160, center: [30, 15] }}
+                  projectionConfig={{ scale: isMobile ? 200 : 160, center: [30, 15] }}
                   className="w-full"
-                  style={{ aspectRatio: "2 / 1" }}
+                  style={{ aspectRatio: isMobile ? "5 / 4" : "2 / 1" }}
                 >
                   <MemoizedGeographies />
 
@@ -143,7 +116,13 @@ export function WorldMap() {
                             textAnchor="middle"
                             y={-20}
                             className="font-heading fill-foreground font-bold"
-                            style={{ pointerEvents: "none", fontSize: "11px", paintOrder: "stroke", stroke: "hsl(var(--card))", strokeWidth: "3px" }}
+                            style={{
+                              pointerEvents: "none",
+                              fontSize: "11px",
+                              paintOrder: "stroke",
+                              stroke: "hsl(var(--card))",
+                              strokeWidth: "3px",
+                            }}
                           >
                             {civ.name}
                           </text>
@@ -152,42 +131,41 @@ export function WorldMap() {
                     );
                   })}
                 </ComposableMap>
-
-                <AnimatePresence>
-                  {selected && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 5 }}
-                      className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-72 p-4 rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div className="flex items-start gap-3">
-                        <div
-                          className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0"
-                          style={{ backgroundColor: `hsl(var(--${selected.colorKey}) / 0.15)` }}
-                        >
-                          <MapPin className="h-5 w-5" style={{ color: `hsl(var(--${selected.colorKey}))` }} />
-                        </div>
-                        <div>
-                          <h3 className="font-display text-sm font-bold text-foreground">{selected.name}</h3>
-                          <p className="text-xs font-heading text-muted-foreground">{selected.dateRange}</p>
-                          <p className="text-xs font-heading text-muted-foreground mt-0.5">{selected.region}</p>
-                          <Link
-                            to={`/civilizations/${selected.slug}`}
-                            className="inline-block mt-2 text-xs font-heading font-medium text-primary hover:underline"
-                          >
-                            Explore →
-                          </Link>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
-            )}
 
-            {/* CTA to full map page */}
+              <AnimatePresence>
+                {selected && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-72 p-4 rounded-xl border border-border bg-card/95 backdrop-blur-lg shadow-xl"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div
+                        className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0"
+                        style={{ backgroundColor: `hsl(var(--${selected.colorKey}) / 0.15)` }}
+                      >
+                        <MapPin className="h-5 w-5" style={{ color: `hsl(var(--${selected.colorKey}))` }} />
+                      </div>
+                      <div>
+                        <h3 className="font-display text-sm font-bold text-foreground">{selected.name}</h3>
+                        <p className="text-xs font-heading text-muted-foreground">{selected.dateRange}</p>
+                        <p className="text-xs font-heading text-muted-foreground mt-0.5">{selected.region}</p>
+                        <Link
+                          to={`/civilizations/${selected.slug}`}
+                          className="inline-block mt-2 text-xs font-heading font-medium text-primary hover:underline"
+                        >
+                          Explore →
+                        </Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <div className="mt-6 text-center">
               <Link to="/map">
                 <Button variant="outline" className="font-heading text-sm gap-2">
