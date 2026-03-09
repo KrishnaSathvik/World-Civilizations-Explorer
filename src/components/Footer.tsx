@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 
-import { SourceBadge, ALL_SOURCES, getSourceLabel, getSourceUrl } from "@/components/SourceBadge";
-
 const navLinks = [
   { label: "Explore", href: "/" },
   { label: "Timeline", href: "/timeline" },
