@@ -2,3 +2,6 @@ project_id = "ormnzqomurczsqapzpmi"
 
 [functions.chat]
 verify_jwt = false
+
+[functions.api-ninjas-history]
+verify_jwt = false
