@@ -160,8 +160,7 @@ export function WorldMap() {
                   )}
                 </AnimatePresence>
               </div>
-            )}
-
+            </div>
             {/* CTA to full map page */}
             <div className="mt-6 text-center">
               <Link to="/map">
