@@ -230,6 +230,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Europe",
     colorKey: "civ-western",
     wikipediaTitle: "Western_civilization",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg/640px-Tour_Eiffel_Wikimedia_Commons.jpg",
     coords: [48.85, 2.35],
     keyFigures: ["Leonardo_da_Vinci", "Isaac_Newton", "Marie_Curie", "Albert_Einstein", "Ada_Lovelace"],
     topics: ["Renaissance", "Age_of_Enlightenment", "Industrial_Revolution", "Scientific_Revolution"],
