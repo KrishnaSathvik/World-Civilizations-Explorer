@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe, Clock, ChevronRight } from "lucide-react";
-import { DynamicTimeline } from "@/components/DynamicTimeline";
+
 import { LOCGallery } from "@/components/LOCGallery";
 import { SitePhotos } from "@/components/SitePhotos";
 import { Badge } from "@/components/ui/badge";
@@ -220,8 +220,6 @@ export default function CivilizationHub() {
         </div>
       </section>
 
-      {/* Dynamic Timeline (API-powered) */}
-      <DynamicTimeline query={civ.name} colorKey={civ.colorKey} />
 
       {/* Key Figures */}
       <section className="py-16 md:py-20 bg-secondary/30">
