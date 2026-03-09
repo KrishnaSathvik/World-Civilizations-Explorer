@@ -46,6 +46,7 @@ const App = () => (
           <Route path="/contribute" element={<ContributePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/newsletter" element={<NewsletterPage />} />
+          <Route path="/museums" element={<MuseumSearchPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />

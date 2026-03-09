@@ -169,12 +169,7 @@ export function MuseumGallery({ query, title = "Museum Artifacts", limit = 4 }: 
                     {artwork.date && (
                       <span className="text-[10px] font-mono text-muted-foreground">{artwork.date}</span>
                     )}
-                    <Badge
-                      variant="secondary"
-                      className={`text-[9px] px-1.5 py-0 font-heading ${SOURCE_COLORS[artwork.source] || ""}`}
-                    >
-                      {SOURCE_LABELS[artwork.source] || artwork.source}
-                    </Badge>
+                    <SourceBadge source={artwork.source} />
                   </div>
                 </div>
               </motion.a>

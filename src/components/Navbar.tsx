@@ -180,6 +180,7 @@ export function Navbar() {
             { label: "Timeline", href: "/timeline" },
             { label: "Map", href: "/map" },
             { label: "Compare", href: "/compare" },
+            { label: "Museums", href: "/museums" },
             { label: "AI Assistant", href: "/ask" },
             { label: "Search", href: "/search" },
           ].map((link) => (
