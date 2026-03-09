@@ -157,3 +157,7 @@ export function getSourceConfig(source: string) {
 }
 
 export const ALL_SOURCES: DataSource[] = Object.keys(SOURCE_CONFIG) as DataSource[];
+
+// Museum-only subset for museum search page
+export type MuseumSource = "met" | "aic" | "smithsonian" | "harvard" | "rijksmuseum";
+export const MUSEUM_SOURCES: MuseumSource[] = ["met", "aic", "smithsonian", "harvard", "rijksmuseum"];

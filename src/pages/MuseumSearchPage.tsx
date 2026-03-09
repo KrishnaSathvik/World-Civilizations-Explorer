@@ -139,7 +139,7 @@ export default function MuseumSearchPage() {
             <div className="flex flex-wrap items-center gap-2">
               <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm font-heading text-muted-foreground mr-1">Sources:</span>
-              {ALL_SOURCES.map((s) => (
+              {MUSEUM_SOURCES.map((s) => (
                 <button
                   key={s}
                   onClick={() => toggleSource(s)}
