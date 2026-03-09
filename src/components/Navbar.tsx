@@ -120,6 +120,7 @@ export function Navbar() {
           <Link to="/timeline" className={linkClass("/timeline")}>Timeline</Link>
           <Link to="/map" className={linkClass("/map")}>Map</Link>
           <Link to="/compare" className={linkClass("/compare")}>Compare</Link>
+          <Link to="/museums" className={linkClass("/museums")}>Museums</Link>
           <Link to="/ask" className={linkClass("/ask")}>AI Assistant</Link>
         </nav>
 
