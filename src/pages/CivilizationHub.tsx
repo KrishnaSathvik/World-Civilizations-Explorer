@@ -1,7 +1,8 @@
 import { useParams, Link } from "react-router-dom";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe, Clock, ChevronRight } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe, Clock, ChevronRight, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 import { LOCGallery } from "@/components/LOCGallery";
 import { SitePhotos } from "@/components/SitePhotos";
