@@ -89,30 +89,30 @@ export function WorldMap() {
                     >
                       <g onClick={(e) => handleMarkerClick(civ.id, e)}>
                         {/* Larger invisible hit area for mobile tap */}
-                        <circle r={16} fill="transparent" />
-                        {/* Pulse ring */}
+                        <circle r={22} fill="transparent" />
+                        {/* Glow ring */}
                         <circle
-                          r={isActive ? 12 : 8}
-                          fill="none"
+                          r={isActive ? 16 : 12}
+                          fill={`hsl(var(--${civ.colorKey}) / 0.15)`}
                           stroke={`hsl(var(--${civ.colorKey}))`}
-                          strokeWidth={1.5}
-                          opacity={isActive ? 0.7 : 0.4}
+                          strokeWidth={2}
+                          opacity={isActive ? 0.9 : 0.5}
                           className="transition-all duration-300"
                         />
                         {/* Main dot */}
                         <circle
-                          r={isActive ? 6 : 5}
+                          r={isActive ? 8 : 7}
                           fill={`hsl(var(--${civ.colorKey}))`}
                           stroke="hsl(var(--background))"
-                          strokeWidth={1.5}
+                          strokeWidth={2}
                           className="transition-all duration-300"
                         />
                         {/* Always-visible label */}
                         <text
                           textAnchor="middle"
-                          y={-16}
-                          className="font-heading fill-foreground font-semibold"
-                          style={{ pointerEvents: "none", fontSize: "8px" }}
+                          y={-20}
+                          className="font-heading fill-foreground font-bold"
+                          style={{ pointerEvents: "none", fontSize: "11px", paintOrder: "stroke", stroke: "hsl(var(--card))", strokeWidth: "3px" }}
                         >
                           {civ.name}
                         </text>
