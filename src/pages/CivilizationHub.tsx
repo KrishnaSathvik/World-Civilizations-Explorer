@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
 import { searchCommonsImages } from "@/services/wikimedia-commons";
+import { useAutoEmbed } from "@/hooks/useAutoEmbed";
 import type { WikiSummary } from "@/services/api";
 
 export default function CivilizationHub() {
