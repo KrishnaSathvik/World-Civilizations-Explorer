@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe, Clock, ChevronRight } from "lucide-react";
 import { DynamicTimeline } from "@/components/DynamicTimeline";
 import { LOCGallery } from "@/components/LOCGallery";
 import { SitePhotos } from "@/components/SitePhotos";
@@ -51,7 +51,7 @@ export default function CivilizationHub() {
     })),
   });
 
-  // Gallery images from Wikimedia Commons (better quality than Wikipedia image list)
+  // Gallery images from Wikimedia Commons
   const galleryQuery = useQuery({
     queryKey: ["commons-gallery", civ?.name],
     queryFn: () => searchCommonsImages(civ!.name, 12),
@@ -59,7 +59,6 @@ export default function CivilizationHub() {
     staleTime: 1000 * 60 * 60,
   });
 
-  // Auto-embed Wikipedia content into knowledge base
   useAutoEmbed(mainQuery.data);
 
   if (!civ) {
@@ -131,7 +130,6 @@ export default function CivilizationHub() {
                     {civ.era}
                   </span>
                 </div>
-                {/* Read time + source badges */}
                 <div className="flex flex-wrap items-center gap-2 mt-3">
                   {mainData?.extract && (
                     <Badge variant="outline" className="font-heading text-[10px] gap-1">
@@ -173,7 +171,56 @@ export default function CivilizationHub() {
         </div>
       </section>
 
-      {/* Dynamic Timeline */}
+      {/* === Static Timeline (from curated data) === */}
+      <section className="py-16 md:py-20 bg-secondary/30">
+        <div className="container">
+          <ScrollReveal>
+            <div className="flex items-center gap-3 mb-10">
+              <div className="h-10 w-10 rounded-lg bg-accent/40 flex items-center justify-center">
+                <Calendar className="h-5 w-5 text-accent-foreground" />
+              </div>
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Key Events Timeline</h2>
+                <p className="text-sm font-heading text-muted-foreground mt-1">
+                  {civ.timeline.length} pivotal moments spanning {civ.dateRange}
+                </p>
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <div className="relative max-w-3xl mx-auto">
+            <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px" style={{ backgroundColor: `hsl(var(--${civ.colorKey}) / 0.3)` }} />
+            <StaggerContainer className="space-y-6" staggerDelay={0.06}>
+              {civ.timeline.map((t, i) => (
+                <motion.div
+                  key={i}
+                  variants={staggerItem}
+                  className="relative pl-12 md:pl-20"
+                >
+                  <div
+                    className="absolute left-2.5 md:left-6.5 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-background z-10"
+                    style={{ backgroundColor: `hsl(var(--${civ.colorKey}))` }}
+                  />
+                  <div className="p-4 rounded-xl border border-border/60 bg-card hover:shadow-md transition-shadow">
+                    <span
+                      className="inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-bold mb-2"
+                      style={{
+                        backgroundColor: `hsl(var(--${civ.colorKey}) / 0.1)`,
+                        color: `hsl(var(--${civ.colorKey}))`,
+                      }}
+                    >
+                      {t.year}
+                    </span>
+                    <p className="font-body text-foreground leading-relaxed">{t.event}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </StaggerContainer>
+          </div>
+        </div>
+      </section>
+
+      {/* Dynamic Timeline (API-powered) */}
       <DynamicTimeline query={civ.name} colorKey={civ.colorKey} />
 
       {/* Key Figures */}
@@ -184,7 +231,12 @@ export default function CivilizationHub() {
               <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <User className="h-5 w-5 text-primary" />
               </div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Key Figures</h2>
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Key Figures</h2>
+                <p className="text-sm font-heading text-muted-foreground mt-1">
+                  The people who shaped {civ.name}
+                </p>
+              </div>
             </div>
           </ScrollReveal>
 
@@ -192,34 +244,34 @@ export default function CivilizationHub() {
             {figureQueries.map((query, i) => {
               const data = query.data as WikiSummary | undefined;
               return (
-                <motion.div
-                  key={civ.keyFigures[i]}
-                  variants={staggerItem}
-                >
-                <Link
-                  to={`/figures/${civ.keyFigures[i]}`}
-                  className="group block p-4 rounded-xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-md transition-all"
-                >
-                  <div className="h-20 w-20 mx-auto rounded-full overflow-hidden bg-muted mb-3">
-                    {query.isLoading ? (
-                      <Skeleton className="w-full h-full" />
-                    ) : data?.thumbnail?.source ? (
-                      <img src={data.thumbnail.source} alt={data.title} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-secondary">
-                        <User className="h-8 w-8 text-muted-foreground/30" />
-                      </div>
+                <motion.div key={civ.keyFigures[i]} variants={staggerItem}>
+                  <Link
+                    to={`/figures/${civ.keyFigures[i]}`}
+                    className="group block p-4 rounded-xl border border-border/60 bg-card hover:border-primary/30 hover:shadow-md transition-all"
+                  >
+                    <div className="h-20 w-20 mx-auto rounded-full overflow-hidden bg-muted mb-3">
+                      {query.isLoading ? (
+                        <Skeleton className="w-full h-full" />
+                      ) : data?.thumbnail?.source ? (
+                        <img src={data.thumbnail.source} alt={data.title} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-secondary">
+                          <User className="h-8 w-8 text-muted-foreground/30" />
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="font-heading text-sm font-semibold text-foreground text-center group-hover:text-primary transition-colors">
+                      {data?.title || civ.keyFigures[i].replace(/_/g, " ")}
+                    </h3>
+                    {data?.extract && (
+                      <p className="text-xs font-body text-muted-foreground text-center mt-1 line-clamp-3">
+                        {data.extract.slice(0, 120)}...
+                      </p>
                     )}
-                  </div>
-                  <h3 className="font-heading text-sm font-semibold text-foreground text-center group-hover:text-primary transition-colors">
-                    {data?.title || civ.keyFigures[i].replace(/_/g, " ")}
-                  </h3>
-                  {data?.extract && (
-                    <p className="text-xs font-body text-muted-foreground text-center mt-1 line-clamp-2">
-                      {data.extract.slice(0, 80)}...
-                    </p>
-                  )}
-                </Link>
+                    <div className="flex items-center justify-center gap-1 mt-2 text-[10px] font-heading text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                      View profile <ChevronRight className="h-3 w-3" />
+                    </div>
+                  </Link>
                 </motion.div>
               );
             })}
@@ -227,7 +279,7 @@ export default function CivilizationHub() {
         </div>
       </section>
 
-      {/* Topics */}
+      {/* Topics & Culture */}
       <section className="py-16 md:py-20">
         <div className="container">
           <ScrollReveal>
@@ -235,7 +287,12 @@ export default function CivilizationHub() {
               <div className="h-10 w-10 rounded-lg bg-cultural-red/10 flex items-center justify-center">
                 <BookOpen className="h-5 w-5 text-cultural-red" />
               </div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Topics & Culture</h2>
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">Topics & Culture</h2>
+                <p className="text-sm font-heading text-muted-foreground mt-1">
+                  Art, science, religion, and cultural achievements
+                </p>
+              </div>
             </div>
           </ScrollReveal>
 
@@ -243,36 +300,36 @@ export default function CivilizationHub() {
             {topicQueries.map((query, i) => {
               const data = query.data as WikiSummary | undefined;
               return (
-                <motion.div
-                  key={civ.topics[i]}
-                  variants={staggerItem}
-                >
-                <Link
-                  to={`/topics/${civ.topics[i]}`}
-                  className="group flex gap-4 p-5 rounded-xl border border-border/60 bg-card hover:border-gold/30 hover:shadow-md transition-all"
-                >
-                  <div className="h-24 w-24 rounded-lg overflow-hidden bg-muted shrink-0">
-                    {query.isLoading ? (
-                      <Skeleton className="w-full h-full" />
-                    ) : data?.thumbnail?.source ? (
-                      <img src={data.thumbnail.source} alt={data.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-secondary">
-                        <BookOpen className="h-8 w-8 text-muted-foreground/30" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-heading text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
-                      {data?.title || civ.topics[i].replace(/_/g, " ")}
-                    </h3>
-                    {data?.extract && (
-                      <p className="text-sm font-body text-muted-foreground line-clamp-3 leading-relaxed">
-                        {data.extract.slice(0, 200)}...
-                      </p>
-                    )}
-                  </div>
-                </Link>
+                <motion.div key={civ.topics[i]} variants={staggerItem}>
+                  <Link
+                    to={`/topics/${civ.topics[i]}`}
+                    className="group flex gap-4 p-5 rounded-xl border border-border/60 bg-card hover:border-gold/30 hover:shadow-md transition-all"
+                  >
+                    <div className="h-28 w-28 rounded-lg overflow-hidden bg-muted shrink-0">
+                      {query.isLoading ? (
+                        <Skeleton className="w-full h-full" />
+                      ) : data?.thumbnail?.source ? (
+                        <img src={data.thumbnail.source} alt={data.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-secondary">
+                          <BookOpen className="h-8 w-8 text-muted-foreground/30" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-heading text-base font-semibold text-foreground group-hover:text-primary transition-colors mb-1">
+                        {data?.title || civ.topics[i].replace(/_/g, " ")}
+                      </h3>
+                      {data?.extract && (
+                        <p className="text-sm font-body text-muted-foreground line-clamp-4 leading-relaxed">
+                          {data.extract.slice(0, 250)}...
+                        </p>
+                      )}
+                      <span className="inline-flex items-center gap-1 mt-2 text-xs font-heading text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                        Learn more <ChevronRight className="h-3 w-3" />
+                      </span>
+                    </div>
+                  </Link>
                 </motion.div>
               );
             })}
@@ -334,7 +391,6 @@ export default function CivilizationHub() {
           )}
         </div>
       </section>
-
 
       {/* Museum Artifacts */}
       <MuseumGallery query={`${civ.name} art history`} title={`${civ.name} — Museum Artifacts`} limit={4} />
