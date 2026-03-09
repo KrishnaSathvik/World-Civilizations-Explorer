@@ -26,21 +26,6 @@ interface UnifiedArtwork {
   culture?: string;
 }
 
-const SOURCE_LABELS: Record<string, string> = {
-  met: "The Met",
-  aic: "Art Institute of Chicago",
-  smithsonian: "Smithsonian",
-  harvard: "Harvard Art Museums",
-  rijksmuseum: "Rijksmuseum",
-};
-
-const SOURCE_COLORS: Record<string, string> = {
-  met: "bg-red-500/10 text-red-700 dark:text-red-400",
-  aic: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
-  smithsonian: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  harvard: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-  rijksmuseum: "bg-orange-500/10 text-orange-700 dark:text-orange-400",
-};
 
 function normalizeMetArtwork(a: MetArtwork): UnifiedArtwork {
   return {
