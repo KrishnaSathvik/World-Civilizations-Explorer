@@ -59,8 +59,7 @@ export default function CivilizationHub() {
   // Auto-embed Wikipedia content into knowledge base
   useAutoEmbed(mainQuery.data);
 
-
-    return (
+  if (!civ) {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="container py-20 text-center">
