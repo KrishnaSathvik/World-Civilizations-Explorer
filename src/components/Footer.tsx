@@ -77,15 +77,15 @@ export function Footer() {
           <div>
             <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Data Sources</h4>
             <ul className="space-y-2">
-              {sourceLogos.map((src) => (
-                <li key={src.name}>
+              {ALL_SOURCES.map((source) => (
+                <li key={source}>
                   <a
-                    href={src.url}
+                    href={getSourceUrl(source)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="inline-flex items-center gap-2 font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {src.name}
+                    {getSourceLabel(source)}
                   </a>
                 </li>
               ))}
