@@ -126,8 +126,8 @@ export function WorldMap() {
                       </Marker>
                     );
                   })}
-                </ComposableMap>
-
+              </ComposableMap>
+              </div>
                 <AnimatePresence>
                   {selected && (
                     <motion.div
