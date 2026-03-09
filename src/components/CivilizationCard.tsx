@@ -11,7 +11,7 @@ interface Props {
 }
 
 export function CivilizationCard({ civilization, wikiData, isLoading }: Props) {
-  const imageUrl = wikiData?.thumbnail?.source;
+  const imageUrl = wikiData?.thumbnail?.source || civilization.imageUrl;
   const extract = wikiData?.extract;
 
   return (
