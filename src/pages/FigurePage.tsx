@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { User, ExternalLink, MapPin, BookOpen, Clock, Globe, Calendar, ChevronRight, Database } from "lucide-react";
+import { User, ExternalLink, MapPin, BookOpen, Clock, Globe, Calendar, ChevronRight, Database, Briefcase, Baby, Skull, Award, Scroll } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { civilizations } from "@/data/civilizations";
 import { fetchWikipediaSummary, fetchWikipediaImages } from "@/services/api";
@@ -8,11 +8,23 @@ import { fetchFigureFromWikidata } from "@/services/wikidata";
 import { searchCommonsImages } from "@/services/wikimedia-commons";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ScrollReveal } from "@/components/ScrollReveal";
+import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
 import { MuseumGallery } from "@/components/MuseumGallery";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { motion } from "framer-motion";
+
+function formatWikiDate(dateStr?: string): string {
+  if (!dateStr) return "";
+  try {
+    const d = new Date(dateStr);
+    if (d.getFullYear() < 0) return `${Math.abs(d.getFullYear())} BCE`;
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  } catch {
+    return dateStr;
+  }
+}
 
 export default function FigurePage() {
   const { slug } = useParams<{ slug: string }>();
@@ -39,6 +51,26 @@ export default function FigurePage() {
     enabled: !!wikiTitle,
   });
 
+  // Related Wikipedia links for "See Also"
+  const { data: relatedLinks } = useQuery({
+    queryKey: ["wiki-links", wikiTitle],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(wikiTitle)}&prop=links&pllimit=15&plnamespace=0&format=json&origin=*`
+      );
+      if (!res.ok) return [];
+      const data = await res.json();
+      const pages = data.query?.pages || {};
+      const page = Object.values(pages)[0] as any;
+      return (page?.links || [])
+        .map((l: any) => l.title as string)
+        .filter((t: string) => t.length > 3 && !t.includes(":"))
+        .slice(0, 10);
+    },
+    enabled: !!wikiTitle,
+    staleTime: 1000 * 60 * 30,
+  });
+
   const relatedCivs = civilizations.filter((c) =>
     c.keyFigures.includes(wikiTitle)
   );
@@ -47,8 +79,13 @@ export default function FigurePage() {
     new Set(relatedCivs.flatMap((c) => c.topics))
   ).slice(0, 8);
 
-  // Timeline events that mention this figure
-  const relatedTimeline = relatedCivs.flatMap((c) =>
+  // ALL timeline events from related civilizations (not just matching name)
+  const fullTimeline = relatedCivs.flatMap((c) =>
+    c.timeline.map((t) => ({ ...t, civName: c.name, civSlug: c.slug }))
+  );
+
+  // Events specifically mentioning this figure
+  const figureTimeline = relatedCivs.flatMap((c) =>
     c.timeline
       .filter((t) =>
         t.event.toLowerCase().includes(wikiTitle.replace(/_/g, " ").toLowerCase()) ||
@@ -62,7 +99,6 @@ export default function FigurePage() {
     ? Math.max(1, Math.ceil(wiki.extract.split(/\s+/).length / 200))
     : null;
 
-  // Split extract into paragraphs for structured display
   const extractParagraphs = wiki?.extract
     ? wiki.extract.split(/(?<=[.!?])\s+(?=[A-Z])/).reduce<string[]>((acc, sentence, i) => {
         const pIdx = Math.floor(i / 3);
@@ -71,6 +107,8 @@ export default function FigurePage() {
         return acc;
       }, [])
     : [];
+
+  const heroImage = wiki?.originalimage?.source || wiki?.thumbnail?.source || wikidataInfo?.image;
 
   return (
     <div className="min-h-screen bg-background">
@@ -94,15 +132,15 @@ export default function FigurePage() {
                 {/* Portrait */}
                 <div className="shrink-0">
                   {isLoading ? (
-                    <Skeleton className="h-56 w-44 rounded-xl" />
-                  ) : wiki?.thumbnail ? (
+                    <Skeleton className="h-64 w-48 rounded-xl" />
+                  ) : heroImage ? (
                     <img
-                      src={wiki.thumbnail.source}
+                      src={heroImage}
                       alt={displayName}
-                      className="h-56 w-44 object-cover rounded-xl border border-border shadow-lg"
+                      className="h-64 w-48 object-cover rounded-xl border border-border shadow-lg"
                     />
                   ) : (
-                    <div className="h-56 w-44 rounded-xl border border-border bg-muted flex items-center justify-center">
+                    <div className="h-64 w-48 rounded-xl border border-border bg-muted flex items-center justify-center">
                       <User className="h-12 w-12 text-muted-foreground" />
                     </div>
                   )}
@@ -110,36 +148,11 @@ export default function FigurePage() {
 
                 {/* Info */}
                 <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2 mb-4">
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10">
                       <User className="h-4 w-4 text-primary" />
                       <span className="text-xs font-heading font-medium text-primary">Historical Figure</span>
-                  </div>
-
-                  {/* Wikidata structured metadata */}
-                  {wikidataInfo && (
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3 text-sm text-muted-foreground">
-                      {wikidataInfo.occupation && (
-                        <span className="font-heading">{wikidataInfo.occupation}</span>
-                      )}
-                      {wikidataInfo.birthDate && (
-                        <span className="font-mono text-xs">
-                          b. {wikidataInfo.birthDate}
-                        </span>
-                      )}
-                      {wikidataInfo.deathDate && (
-                        <span className="font-mono text-xs">
-                          d. {wikidataInfo.deathDate}
-                        </span>
-                      )}
-                      {wikidataInfo.birthPlace && (
-                        <span className="font-heading text-xs">📍 {wikidataInfo.birthPlace}</span>
-                      )}
-                      {wikidataInfo.description && (
-                        <span className="font-body text-xs italic">{wikidataInfo.description}</span>
-                      )}
                     </div>
-                  )}
                     {readTime && (
                       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted border border-border">
                         <Clock className="h-3.5 w-3.5 text-muted-foreground" />
@@ -151,6 +164,40 @@ export default function FigurePage() {
                   <h1 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
                     {displayName}
                   </h1>
+
+                  {/* Structured biographical facts */}
+                  {wikidataInfo && (
+                    <div className="flex flex-wrap gap-4 mb-4">
+                      {wikidataInfo.occupation && (
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <Briefcase className="h-3.5 w-3.5" />
+                          <span className="font-heading">{wikidataInfo.occupation}</span>
+                        </div>
+                      )}
+                      {wikidataInfo.birthDate && (
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <Baby className="h-3.5 w-3.5 text-green-600" />
+                          <span className="font-heading">Born: {formatWikiDate(wikidataInfo.birthDate)}</span>
+                        </div>
+                      )}
+                      {wikidataInfo.deathDate && (
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <Skull className="h-3.5 w-3.5 text-destructive" />
+                          <span className="font-heading">Died: {formatWikiDate(wikidataInfo.deathDate)}</span>
+                        </div>
+                      )}
+                      {wikidataInfo.birthPlace && (
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                          <MapPin className="h-3.5 w-3.5" />
+                          <span className="font-heading">{wikidataInfo.birthPlace}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {wikidataInfo?.description && (
+                    <p className="text-sm font-body text-muted-foreground italic mb-4">{wikidataInfo.description}</p>
+                  )}
 
                   {relatedCivs.length > 0 && (
                     <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -198,10 +245,6 @@ export default function FigurePage() {
                         <span className="text-[10px] font-heading text-muted-foreground">Wikidata</span>
                       </div>
                     )}
-                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/60 border border-border/60">
-                      <Globe className="h-3 w-3 text-muted-foreground" />
-                      <span className="text-[10px] font-heading text-muted-foreground">Wikimedia Commons</span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -209,7 +252,7 @@ export default function FigurePage() {
           </div>
         </section>
 
-        {/* Full content section */}
+        {/* Full Overview */}
         {extractParagraphs.length > 1 && (
           <section className="py-10 md:py-16">
             <div className="container">
@@ -219,13 +262,11 @@ export default function FigurePage() {
                     <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
                       <BookOpen className="h-4 w-4 text-primary" />
                     </div>
-                    <h2 className="font-display text-2xl font-bold text-foreground">Overview</h2>
+                    <h2 className="font-display text-2xl font-bold text-foreground">Full Overview</h2>
                   </div>
                   <div className="space-y-4">
                     {extractParagraphs.slice(1).map((p, i) => (
-                      <p key={i} className="font-body text-foreground/80 text-base leading-relaxed">
-                        {p}
-                      </p>
+                      <p key={i} className="font-body text-foreground/80 text-base leading-relaxed">{p}</p>
                     ))}
                   </div>
                 </div>
@@ -234,8 +275,8 @@ export default function FigurePage() {
           </section>
         )}
 
-        {/* Life Timeline */}
-        {relatedTimeline.length > 0 && (
+        {/* Life Timeline — events that mention this figure */}
+        {figureTimeline.length > 0 && (
           <section className="py-10 md:py-16 bg-secondary/30">
             <div className="container">
               <ScrollReveal>
@@ -243,12 +284,12 @@ export default function FigurePage() {
                   <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
                     <Calendar className="h-4 w-4 text-primary" />
                   </div>
-                  <h2 className="font-display text-2xl font-bold text-foreground">Timeline</h2>
+                  <h2 className="font-display text-2xl font-bold text-foreground">Life & Legacy</h2>
                 </div>
                 <div className="relative max-w-2xl">
                   <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
                   <div className="space-y-6">
-                    {relatedTimeline.map((t, i) => (
+                    {figureTimeline.map((t, i) => (
                       <div key={i} className="relative pl-10">
                         <div className="absolute left-2.5 top-1.5 h-3 w-3 rounded-full bg-primary border-2 border-background" />
                         <span className="font-mono text-xs text-primary font-semibold">{t.year}</span>
@@ -265,15 +306,56 @@ export default function FigurePage() {
           </section>
         )}
 
+        {/* Historical Context — full civilization timeline */}
+        {fullTimeline.length > 0 && (
+          <section className="py-10 md:py-16">
+            <div className="container">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-8 rounded-lg bg-accent/40 flex items-center justify-center">
+                    <Scroll className="h-4 w-4 text-accent-foreground" />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-2xl font-bold text-foreground">Historical Context</h2>
+                    <p className="text-sm font-heading text-muted-foreground mt-0.5">
+                      Key events during the era of {displayName}
+                    </p>
+                  </div>
+                </div>
+                <div className="relative max-w-2xl">
+                  <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
+                  <div className="space-y-4">
+                    {fullTimeline.map((t, i) => (
+                      <div key={i} className="relative pl-10">
+                        <div className="absolute left-2.5 top-1.5 h-2.5 w-2.5 rounded-full bg-muted-foreground/30 border-2 border-background" />
+                        <div className="flex items-baseline gap-2">
+                          <span className="font-mono text-[11px] text-muted-foreground font-semibold shrink-0">{t.year}</span>
+                          <p className="font-body text-sm text-muted-foreground">{t.event}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
+          </section>
+        )}
+
         {/* Gallery */}
         {images && images.length > 0 && (
-          <section className="py-10 md:py-16 bg-gradient-to-b from-background to-primary/[0.02]">
+          <section className="py-10 md:py-16 bg-secondary/30">
             <div className="container">
               <ScrollReveal>
                 <h2 className="font-display text-2xl font-bold text-foreground mb-6">Gallery</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {images.map((img, i) => (
-                    <div key={i} className="rounded-xl overflow-hidden border border-border bg-card group">
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className="rounded-xl overflow-hidden border border-border bg-card group"
+                    >
                       <div className="aspect-square overflow-hidden">
                         <img
                           src={img.source}
@@ -285,14 +367,13 @@ export default function FigurePage() {
                       <div className="p-2">
                         <p className="text-[10px] font-heading text-muted-foreground truncate">{img.title}</p>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </ScrollReveal>
             </div>
           </section>
         )}
-
 
         {/* Museum Artifacts */}
         <MuseumGallery query={displayName} title={`${displayName} — Museum Artifacts`} limit={4} />
@@ -315,6 +396,36 @@ export default function FigurePage() {
                         {t.replace(/_/g, " ")}
                       </Badge>
                     </Link>
+                  ))}
+                </div>
+              </ScrollReveal>
+            </div>
+          </section>
+        )}
+
+        {/* Related Wikipedia Links */}
+        {relatedLinks && relatedLinks.length > 0 && (
+          <section className="py-10 md:py-16 bg-card border-t border-border/60">
+            <div className="container">
+              <ScrollReveal>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Award className="h-4 w-4 text-primary" />
+                  </div>
+                  <h2 className="font-display text-2xl font-bold text-foreground">See Also</h2>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {relatedLinks.map((title) => (
+                    <a
+                      key={title}
+                      href={`https://en.wikipedia.org/wiki/${encodeURIComponent(title)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border/60 bg-card hover:bg-accent text-sm font-heading text-foreground transition-colors"
+                    >
+                      {title}
+                      <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                    </a>
                   ))}
                 </div>
               </ScrollReveal>
