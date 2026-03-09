@@ -142,6 +142,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Asia",
     colorKey: "civ-japan",
     wikipediaTitle: "Feudal_Japan",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Kinkaku3402CBcropped.jpg/640px-Kinkaku3402CBcropped.jpg",
     coords: [35.68, 139.69],
     keyFigures: ["Tokugawa_Ieyasu", "Oda_Nobunaga", "Miyamoto_Musashi", "Murasaki_Shikibu", "Toyotomi_Hideyoshi"],
     topics: ["Samurai", "Bushido", "Zen", "Kabuki"],
