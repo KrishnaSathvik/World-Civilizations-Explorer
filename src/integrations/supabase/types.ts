@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      civilization_timelines: {
+        Row: {
+          civilization_slug: string
+          created_at: string
+          events: Json
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          civilization_slug: string
+          created_at?: string
+          events?: Json
+          id?: string
+          updated_at?: string
+        }
+        Update: {
+          civilization_slug?: string
+          created_at?: string
+          events?: Json
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       content_embeddings: {
         Row: {
           content: string
