@@ -3,6 +3,8 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, MapPin, User, BookOpen, Image, ExternalLink, FileText, Database, Globe } from "lucide-react";
 import { DynamicTimeline } from "@/components/DynamicTimeline";
+import { LOCGallery } from "@/components/LOCGallery";
+import { SitePhotos } from "@/components/SitePhotos";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navbar } from "@/components/Navbar";
@@ -336,6 +338,12 @@ export default function CivilizationHub() {
 
       {/* Museum Artifacts */}
       <MuseumGallery query={`${civ.name} art history`} title={`${civ.name} — Museum Artifacts`} limit={4} />
+
+      {/* Primary Sources from Library of Congress */}
+      <LOCGallery query={civ.name} title={`${civ.name} — Primary Sources`} />
+
+      {/* Modern Site Photography from Unsplash */}
+      <SitePhotos query={`${civ.name} historical site`} title={`${civ.name} — Modern Photography`} limit={6} />
 
       <Footer />
     </div>
