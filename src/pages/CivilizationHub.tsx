@@ -56,7 +56,10 @@ export default function CivilizationHub() {
     staleTime: 1000 * 60 * 60,
   });
 
-  if (!civ) {
+  // Auto-embed Wikipedia content into knowledge base
+  useAutoEmbed(mainQuery.data);
+
+
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
