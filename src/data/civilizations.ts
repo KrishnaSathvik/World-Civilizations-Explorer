@@ -186,6 +186,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Americas",
     colorKey: "civ-mesoamerican",
     wikipediaTitle: "Mesoamerica",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Chichen_Itza_3.jpg/640px-Chichen_Itza_3.jpg",
     coords: [19.43, -99.13],
     keyFigures: ["Montezuma_II", "Pacal_the_Great", "Nezahualcoyotl", "Topiltzin_Ce_Acatl_Quetzalcoatl"],
     topics: ["Maya_civilization", "Aztec", "Chichen_Itza", "Mesoamerican_calendar"],
