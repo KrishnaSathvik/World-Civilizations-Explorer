@@ -50,6 +50,7 @@ const App = () => (
           <Route path="/newsletter" element={<NewsletterPage />} />
           <Route path="/museums" element={<MuseumSearchPage />} />
           <Route path="/sources" element={<DataSourcesPage />} />
+          <Route path="/history-event" element={<HistoryEventPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ChatWidget />
