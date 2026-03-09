@@ -73,7 +73,7 @@ export function WorldMap() {
             >
               <ComposableMap
                 projection="geoMercator"
-                projectionConfig={{ scale: 130, center: [20, 20] }}
+                projectionConfig={{ scale: 160, center: [30, 15] }}
                 className="w-full"
                 style={{ aspectRatio: "2 / 1" }}
               >
