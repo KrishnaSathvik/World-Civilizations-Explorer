@@ -73,20 +73,24 @@ export function Footer() {
 
           {/* Sources */}
           <div>
-            <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Data Sources</h4>
+            <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Data</h4>
             <ul className="space-y-2">
-              {ALL_SOURCES.map((source) => (
-                <li key={source}>
-                  <a
-                    href={getSourceUrl(source)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {getSourceLabel(source)}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/sources"
+                  className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Data Sources
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/museums"
+                  className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Museum Search
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
