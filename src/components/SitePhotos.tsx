@@ -34,9 +34,10 @@ export function SitePhotos({ query, title, limit = 6 }: SitePhotosProps) {
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
                 {title || "Modern Photography"}
               </h2>
-              <p className="text-xs font-heading text-muted-foreground">
-                Contemporary photos via Unsplash
-              </p>
+              <div className="flex items-center gap-1.5 mt-1">
+                <SourceBadge source="unsplash" size="sm" />
+                <span className="text-xs font-heading text-muted-foreground">Contemporary photos</span>
+              </div>
             </div>
           </div>
         </ScrollReveal>
