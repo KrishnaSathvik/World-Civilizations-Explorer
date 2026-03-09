@@ -16,7 +16,7 @@ export function Breadcrumbs({ items, className }: Props) {
   return (
     <nav
       aria-label="Breadcrumb"
-      className={cn("flex items-center gap-1.5 text-sm font-heading mb-4 flex-wrap", className)}
+      className={cn("hidden md:flex items-center gap-1.5 text-sm font-heading mb-4 flex-wrap", className)}
     >
       <Link
         to="/"
