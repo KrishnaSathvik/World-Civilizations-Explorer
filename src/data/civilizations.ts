@@ -164,6 +164,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Middle East",
     colorKey: "civ-islamic",
     wikipediaTitle: "Islamic_Golden_Age",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Alhambra_evening_panorama.jpg/640px-Alhambra_evening_panorama.jpg",
     coords: [33.31, 44.36],
     keyFigures: ["Al-Khwarizmi", "Ibn_Sina", "Al-Biruni", "Ibn_Rushd", "Rumi"],
     topics: ["House_of_Wisdom", "Islamic_architecture", "Arabic_numerals", "Islamic_art"],
