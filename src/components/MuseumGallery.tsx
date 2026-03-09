@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ExternalLink, Landmark } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
+import { SourceBadge, getSourceLabel } from "@/components/SourceBadge";
 import { searchMetMuseum, MetArtwork } from "@/services/met-museum";
 import { searchAICCollection, AICArtwork } from "@/services/art-institute-chicago";
 import { searchMuseums, MuseumArtwork } from "@/services/museum-apis";
