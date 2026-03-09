@@ -6,6 +6,7 @@ import { DynamicTimeline } from "@/components/DynamicTimeline";
 import { LOCGallery } from "@/components/LOCGallery";
 import { SitePhotos } from "@/components/SitePhotos";
 import { Badge } from "@/components/ui/badge";
+import { SourceBadge } from "@/components/SourceBadge";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
