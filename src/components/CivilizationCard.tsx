@@ -39,6 +39,7 @@ export function CivilizationCard({ civilization, wikiData, isLoading }: Props) {
               alt={civilization.name}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
               loading="lazy"
+              onError={() => setHasImageError(true)}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-secondary">
