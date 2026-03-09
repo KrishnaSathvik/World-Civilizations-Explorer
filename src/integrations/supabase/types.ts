@@ -14,13 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      content_embeddings: {
+        Row: {
+          content: string
+          content_type: string
+          created_at: string
+          embedding: string | null
+          id: string
+          metadata: Json | null
+          search_vector: unknown
+          source_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          content_type: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          search_vector?: unknown
+          source_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          content_type?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          metadata?: Json | null
+          search_vector?: unknown
+          source_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      search_content: {
+        Args: {
+          content_types?: string[]
+          match_count?: number
+          query_text: string
+        }
+        Returns: {
+          content: string
+          content_type: string
+          id: string
+          metadata: Json
+          rank: number
+          source_id: string
+          title: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
