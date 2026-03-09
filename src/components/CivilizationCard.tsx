@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Calendar, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,7 +12,8 @@ interface Props {
 }
 
 export function CivilizationCard({ civilization, wikiData, isLoading }: Props) {
-  const imageUrl = wikiData?.thumbnail?.source || civilization.imageUrl;
+  const [hasImageError, setHasImageError] = useState(false);
+  const imageUrl = !hasImageError ? wikiData?.thumbnail?.source || civilization.imageUrl : undefined;
   const extract = wikiData?.extract;
 
   return (
