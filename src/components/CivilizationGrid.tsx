@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
 
-const regionFilters = ["All", "Asia", "Europe", "Africa", "Americas", "Middle East"] as const;
 const eraFilters = ["All", "Ancient", "Medieval", "Modern"] as const;
 
 export function CivilizationGrid() {
