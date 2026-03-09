@@ -98,7 +98,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Asia",
     colorKey: "civ-china",
     wikipediaTitle: "Imperial_China",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/640px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/The_Great_Wall_of_China_at_Jinshanling-edit.jpg/330px-The_Great_Wall_of_China_at_Jinshanling-edit.jpg",
     coords: [39.90, 116.39],
     keyFigures: ["Qin_Shi_Huang", "Confucius", "Wu_Zetian", "Zheng_He", "Sun_Tzu"],
     topics: ["Great_Wall_of_China", "Silk_Road", "Chinese_philosophy", "Terracotta_Army"],
