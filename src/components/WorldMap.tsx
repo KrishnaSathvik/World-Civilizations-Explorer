@@ -22,12 +22,12 @@ const MemoizedGeographies = memo(function MemoGeo() {
           <Geography
             key={geo.rsmKey}
             geography={geo}
-            fill="hsl(var(--muted))"
-            stroke="hsl(var(--border))"
+            fill="hsl(var(--border))"
+            stroke="hsl(var(--ring))"
             strokeWidth={0.5}
             style={{
-              default: { outline: "none", opacity: 0.7 },
-              hover: { outline: "none", opacity: 0.7 },
+              default: { outline: "none", opacity: 1 },
+              hover: { outline: "none", opacity: 1, fill: "hsl(var(--accent))" },
               pressed: { outline: "none" },
             }}
           />

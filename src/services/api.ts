@@ -72,6 +72,8 @@ export interface HistoryEvent {
 export interface TodayInHistory {
   date: string;
   events: HistoryEvent[];
+  births: HistoryEvent[];
+  deaths: HistoryEvent[];
 }
 
 export async function fetchTodayInHistory(): Promise<TodayInHistory> {
@@ -83,12 +85,17 @@ export async function fetchTodayInHistory(): Promise<TodayInHistory> {
   if (!res.ok) throw new Error(`History API error: ${res.status}`);
   const data = await res.json();
 
-  return {
-    date: data.date,
-    events: (data.data?.Events || []).slice(0, 6).map((e: any) => ({
+  const parseItems = (items: any[] | undefined): HistoryEvent[] =>
+    (items || []).slice(0, 6).map((e: any) => ({
       year: e.year,
       text: e.text,
       links: e.links || [],
-    })),
+    }));
+
+  return {
+    date: data.date,
+    events: parseItems(data.data?.Events),
+    births: parseItems(data.data?.Births),
+    deaths: parseItems(data.data?.Deaths),
   };
 }

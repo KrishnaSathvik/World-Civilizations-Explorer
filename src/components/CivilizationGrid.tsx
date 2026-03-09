@@ -9,11 +9,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
 
-const regionFilters = ["All", "Asia", "Europe", "Africa", "Americas", "Middle East"] as const;
 const eraFilters = ["All", "Ancient", "Medieval", "Modern"] as const;
 
 export function CivilizationGrid() {
-  const [activeRegion, setActiveRegion] = useState<string>("All");
   const [activeEra, setActiveEra] = useState<string>("All");
 
   const wikiQueries = useQueries({
@@ -26,7 +24,6 @@ export function CivilizationGrid() {
   });
 
   const filtered = civilizations.filter((civ) => {
-    if (activeRegion !== "All" && civ.regionGroup !== activeRegion) return false;
     if (activeEra !== "All" && civ.era !== activeEra) return false;
     return true;
   });
@@ -47,40 +44,21 @@ export function CivilizationGrid() {
 
         {/* Filters */}
         <ScrollReveal delay={0.1}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-            <div className="flex flex-wrap justify-center gap-1.5">
-              {regionFilters.map((r) => (
-                <Button
-                  key={r}
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    "h-8 px-3 text-xs font-heading rounded-full",
-                    activeRegion === r && "bg-primary text-primary-foreground hover:bg-primary/90"
-                  )}
-                  onClick={() => setActiveRegion(r)}
-                >
-                  {r}
-                </Button>
-              ))}
-            </div>
-            <div className="hidden sm:block w-px h-6 bg-border" />
-            <div className="flex flex-wrap justify-center gap-1.5">
-              {eraFilters.map((e) => (
-                <Button
-                  key={e}
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    "h-8 px-3 text-xs font-heading rounded-full",
-                    activeEra === e && "bg-gold text-gold-foreground hover:bg-gold/90"
-                  )}
-                  onClick={() => setActiveEra(e)}
-                >
-                  {e}
-                </Button>
-              ))}
-            </div>
+          <div className="flex flex-wrap justify-center gap-1.5 mb-10">
+            {eraFilters.map((e) => (
+              <Button
+                key={e}
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "h-8 px-3 text-xs font-heading rounded-full",
+                  activeEra === e && "bg-primary text-primary-foreground hover:bg-primary/90"
+                )}
+                onClick={() => setActiveEra(e)}
+              >
+                {e}
+              </Button>
+            ))}
           </div>
         </ScrollReveal>
 
