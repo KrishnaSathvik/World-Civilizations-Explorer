@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 
-import { SourceBadge, ALL_SOURCES, getSourceLabel, getSourceUrl } from "@/components/SourceBadge";
-
 const navLinks = [
   { label: "Explore", href: "/" },
   { label: "Timeline", href: "/timeline" },
@@ -75,20 +73,24 @@ export function Footer() {
 
           {/* Sources */}
           <div>
-            <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Data Sources</h4>
+            <h4 className="font-heading text-sm font-semibold text-foreground mb-3">Data</h4>
             <ul className="space-y-2">
-              {ALL_SOURCES.map((source) => (
-                <li key={source}>
-                  <a
-                    href={getSourceUrl(source)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {getSourceLabel(source)}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  to="/sources"
+                  className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Data Sources
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/museums"
+                  className="font-heading text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Museum Search
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -98,11 +100,12 @@ export function Footer() {
           <p className="font-heading text-xs text-muted-foreground">
             © {new Date().getFullYear()} Cultural Explorer. Built with open data.
           </p>
-          <div className="flex items-center gap-2 flex-wrap">
-            {ALL_SOURCES.map((source) => (
-              <SourceBadge key={source} source={source} size="sm" />
-            ))}
-          </div>
+          <Link
+            to="/sources"
+            className="font-heading text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            View all 12 data sources →
+          </Link>
         </div>
       </div>
     </footer>
