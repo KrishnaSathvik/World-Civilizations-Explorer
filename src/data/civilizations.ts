@@ -32,6 +32,7 @@ export const civilizations: Civilization[] = [
     regionGroup: "Africa",
     colorKey: "civ-egypt",
     wikipediaTitle: "Ancient_Egypt",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Kheops-Pyramid.jpg/640px-Kheops-Pyramid.jpg",
     coords: [26.82, 30.80],
     keyFigures: ["Cleopatra", "Ramesses_II", "Tutankhamun", "Hatshepsut", "Akhenaten"],
     topics: ["Egyptian_pyramids", "Hieroglyphics", "Ancient_Egyptian_religion", "Nile"],
