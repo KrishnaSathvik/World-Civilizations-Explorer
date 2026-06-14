@@ -1,0 +1,46 @@
+# World Civilizations Explorer
+
+> A source-grounded, AI-assisted guide to 10,000 years of human history —
+> civilizations, historical figures, topics, eras, interactive maps, and
+> timelines. Content is built on public, attributable sources and rendered as
+> clean, crawlable HTML.
+
+## What this site is
+World Civilizations Explorer helps people explore world history through
+structured, cross-linked pages for civilizations, the people who shaped them,
+the topics that defined them, and the eras they belong to. It combines
+encyclopedic text, museum artifacts, primary sources, maps, and timelines.
+
+## Main sections
+- /civilizations — Index of every civilization (Ancient, Medieval, Modern).
+- /civilizations/{slug} — A civilization guide: summary, key facts, timeline,
+  key figures, topics, gallery, museum artifacts, and primary sources.
+- /figures — Index of notable historical figures.
+- /figures/{slug} — A figure's biography, timeline, and related civilizations.
+- /topics/{slug} — A topic's overview, related civilizations, figures, and sources.
+- /era/{ancient|medieval|modern} — Civilizations and milestones within an era.
+- /timeline — Interactive timeline across all civilizations.
+- /map — Interactive world history map.
+- /compare — Side-by-side comparison of two civilizations.
+- /museums — Search artifacts from world museum collections.
+- /ask — Source-grounded AI Q&A about history.
+- /sources — Data providers and attribution policy.
+
+## Data source policy
+Content is grounded in public, attributable sources, including: Wikipedia,
+Wikimedia Commons, the Metropolitan Museum of Art, the Rijksmuseum, the Art
+Institute of Chicago, and the Library of Congress. Source/provenance labels are
+shown in readable text on the pages themselves. Historical imagery comes from
+Wikimedia/museum collections; modern location photography may come from
+Unsplash and is not used as a substitute for historical artifacts.
+
+## Source-grounding & AI labeling rules
+- Factual content is grounded in the sources above; we do not fabricate
+  historical facts, citations, or images.
+- AI-assisted text (such as generated timelines and the /ask answers) is
+  labeled as AI-assisted and remains grounded in retrieved sources.
+- Structured data (JSON-LD) on each page reflects the visible page content.
+
+## Machine-readable surfaces
+- Sitemap: /sitemap.xml
+- Robots: /robots.txt

@@ -1,8 +1,9 @@
+"use client";
 import { motion } from "framer-motion";
 import { Search, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { civilizations } from "@/data/civilizations";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 
 export function HeroSection() {
   return (

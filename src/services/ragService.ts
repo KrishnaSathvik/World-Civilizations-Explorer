@@ -70,14 +70,14 @@ export async function streamRAGChat({
   onDone: () => void;
   onError?: (error: string) => void;
 }): Promise<void> {
-  const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/rag-chat`;
+  const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/rag-chat`;
 
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}`,
       },
       body: JSON.stringify({
         messages: messages.map((m) => ({ role: m.role, content: m.content })),

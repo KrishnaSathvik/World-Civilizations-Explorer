@@ -1,3 +1,4 @@
+"use client";
 import { useRef } from "react";
 import { useState } from "react";
 import { useQueries } from "@tanstack/react-query";

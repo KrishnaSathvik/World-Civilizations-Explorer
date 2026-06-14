@@ -1,7 +1,8 @@
+"use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Calendar, ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import type { Civilization } from "@/data/civilizations";
 import type { WikiSummary } from "@/services/api";
 
