@@ -1,3 +1,4 @@
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTodayInHistory } from "@/services/api";
 import { Calendar, Baby, Skull } from "lucide-react";
@@ -5,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollReveal, StaggerContainer, staggerItem } from "@/components/ScrollReveal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 
 export function ThisWeekInHistory() {
   const { data, isLoading, error } = useQuery({

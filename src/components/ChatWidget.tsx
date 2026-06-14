@@ -1,3 +1,4 @@
+"use client";
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Send, Sparkles, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { streamRAGChat, type Message, type RAGSource } from "@/services/ragService";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 
 const SUGGESTED_QUESTIONS = [
   "How did the Silk Road influence global trade?",

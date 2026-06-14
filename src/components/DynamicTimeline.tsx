@@ -1,3 +1,4 @@
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import { fetchHistoricalEvents, type HistoricalEvent } from "@/services/apiNinjasService";
 import { Clock, Search } from "lucide-react";

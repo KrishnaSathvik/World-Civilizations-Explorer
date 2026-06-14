@@ -2,7 +2,7 @@
 
 An interactive, richly detailed web application for exploring the history of world civilizations — from Ancient Egypt to the Ottoman Empire. Powered by live data from Wikipedia, Wikidata, museum APIs, and AI-generated content.
 
-**Built with:** React · TypeScript · Vite · Tailwind CSS · Lovable Cloud · Framer Motion
+**Built with:** Next.js (App Router) · React · TypeScript · Tailwind CSS · Lovable Cloud · Framer Motion
 
 ---
 
@@ -129,41 +129,67 @@ cd <YOUR_PROJECT_NAME>
 # Install dependencies
 npm install
 
-# Start the dev server
+# Start the Next.js dev server (http://localhost:3000)
 npm run dev
+
+# Production build & serve
+npm run build
+npm run start
 ```
+
+> **Environment:** copy `.env.example` → `.env.local` (git-ignored) and fill in
+> the values, or set them in your host (e.g. Vercel). Only the public
+> anon/publishable key and URL are used on the client — never the service-role
+> key. Set `NEXT_PUBLIC_SITE_URL` to the canonical production origin for correct
+> canonical URLs, sitemap, and OG tags. Real `.env*` files are never committed.
 
 ---
 
 ## 🗂️ Project Structure
 
 ```
+app/                  # Next.js App Router routes (SSG/ISR/SSR + SEO)
+├── layout.tsx        # Root shell, global metadata, providers, site JSON-LD
+├── page.tsx          # Home
+├── civilizations/    # /civilizations (index) + [slug] (SSG, per-page SEO)
+├── figures/          # /figures + [slug]
+├── topics/[slug]/    # Topic pages
+├── era/[slug]/       # Era pages
+├── sitemap.ts        # /sitemap.xml
+├── robots.ts         # /robots.txt
+└── opengraph-image.tsx  # Generated default social image
+
 src/
-├── components/       # Reusable UI components
+├── components/       # Reusable UI components (Client Components)
 │   ├── ui/           # shadcn/ui primitives
-│   ├── ChatWidget    # AI chat overlay
-│   ├── WorldMap      # Interactive map
-│   ├── MuseumGallery # Museum artifact grid
-│   ├── LOCGallery    # Library of Congress gallery
-│   ├── SitePhotos    # Unsplash photography
-│   └── ...
-├── data/             # Static civilization data
+│   └── seo/          # JSON-LD / structured-data helpers
+├── data/             # Static civilization data (powers SSG + sitemap)
 ├── hooks/            # Custom React hooks
-├── pages/            # Route-level page components
+├── views/            # Route-level page components (mounted by app/ routes)
 ├── services/         # API service modules
-└── integrations/     # Lovable Cloud client & types
+├── lib/
+│   ├── router.tsx    # react-router → Next navigation compatibility shim
+│   └── seo/          # Site config, metadata builder, content helpers
+└── integrations/     # Lovable Cloud (Supabase) client & types
 
 supabase/
 ├── functions/        # Edge functions (Deno)
 └── config.toml       # Backend configuration
 ```
 
+> Server Components handle metadata, structured data, and the crawlable HTML
+> for content pages; interactive experiences (map, timeline, chat, filters)
+> render as Client Components. Public content pages are statically generated
+> (`generateStaticParams`) with per-page `generateMetadata`.
+
 ---
 
 ## 📜 Tech Stack
 
-- **Frontend:** React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui
-- **State & Data:** TanStack React Query, React Router v6
+- **Framework:** Next.js 14 (App Router), React 18, TypeScript
+- **Styling:** Tailwind CSS, shadcn/ui
+- **State & Data:** TanStack React Query
+- **SEO:** Per-page metadata, JSON-LD structured data, sitemap, robots, `llms.txt`
 - **Animations:** Framer Motion
 - **Maps:** react-simple-maps
 - **Charts:** Recharts

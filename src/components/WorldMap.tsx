@@ -1,3 +1,4 @@
+"use client";
 import { useState, memo } from "react";
 import {
   ComposableMap,
@@ -7,7 +8,7 @@ import {
 } from "react-simple-maps";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Globe, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/router";
 import { civilizations } from "@/data/civilizations";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";

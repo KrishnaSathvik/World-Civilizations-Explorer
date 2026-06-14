@@ -1,3 +1,4 @@
+"use client";
 import { useQuery } from "@tanstack/react-query";
 import { searchLOCPhotos, searchLOCMaps, type LOCItem } from "@/services/loc";
 import { MapPin, Camera, ExternalLink, FileText } from "lucide-react";
